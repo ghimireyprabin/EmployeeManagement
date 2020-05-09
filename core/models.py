@@ -52,7 +52,7 @@ class EmployeeExperienceInfo(models.Model):
 class Department(models.Model):
 	name = models.CharField(max_length=60)
 	description = models.CharField(max_length=264)
-	employee_count = models.IntegerField(default=0, editable=False)
+	
 
 	def __str__(self):
 		return self.name
@@ -63,6 +63,9 @@ class EmployeeJobInfo(models.Model):
 	rank = models.CharField(max_length=25, choices=rank_choices)
 	working_hours = models.CharField(max_length=25, choices=working_hours_choices)
 	department = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
+
+	
+
 
 	def __str__(self):
 		return self.user.username
