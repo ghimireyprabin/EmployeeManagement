@@ -14,3 +14,17 @@ html, body{
 	color: rgb(100, 255, 218);
 	text-decoration: none;
 }
+
+.infoupdateform{
+	margin-left: 15%;
+	margin-top: 50px;
+	padding: 25px;
+	width: 50%;
+
+}
+
+.btn{
+	margin-top: 15px;
+	padding: 7px;
+	cursor: pointer;
+}
