@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+	
+	<div class="container profile" >
+      <div class="row" >
+        <div class="col-md-4">
+          <div class="mb-4 shadow-sm" >
+            <img class="bd-placeholder-img card-img-top profile_image" src="{% static 'core/images/avatar.png' %}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></img>
+           
+            
+          </div>
+        </div>
+        <div class="col-md-8">
+        	<h2> {{ personal_info.fullname }} </h2>
+        	<h6 class=jobtitle> {{ job_info.job_title }}</h6>
+        	<p> <i class="fas fa-envelope"></i> {{ user_info.email }} <br />
+        	<i class="fas fa-phone"></i> {{ personal_info.phone_number }} </p>
+
+        	<button type="submit" class="btn btn-success">Update Info</button>
+
+        </div>
+      </div>
+    </div>
+    <div class="container">
+    	<div class="row">
+    		<div class="col-md-4" style="text-align: center;">
+    			<p>
+    				@{{user_info.username }} <br>
+    				<i class="fa fa-home"> {{ personal_info.address }}</i>
+    			</p>
+    		</div>
+    		<div class="col-md-8">
+    			<div class="infotab">
+		    	{% include 'core/infotabs.html' %}
+			</div>
+    		</div>
+    	</div>
+    </div>
+    
+
+{% endblock %}

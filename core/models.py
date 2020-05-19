@@ -57,7 +57,7 @@ class Department(models.Model):
 	def __str__(self):
 		return self.name
 
-class Roles(models.Model):
+class Role(models.Model):
 	name = models.CharField(max_length=60)
 	description = models.CharField(max_length=264)
 
@@ -77,7 +77,7 @@ class EmployeeJobInfo(models.Model):
 	rank = models.CharField(max_length=25, choices=rank_choices)
 	working_hours = models.CharField(max_length=25, choices=working_hours_choices)
 	department = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
-	roles = models.ForeignKey(Roles, on_delete=models.SET_NULL, blank=True, null=True)
+	roles = models.ForeignKey(Role, on_delete=models.SET_NULL, blank=True, null=True)
 	Pay_Grade = models.ForeignKey(PayGrade, on_delete=models.SET_NULL, blank=True, null=True)
 
 

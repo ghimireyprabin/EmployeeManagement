@@ -1,0 +1,164 @@
+
+<section id="tabs">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 ">
+				<nav>
+					<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+						<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#basic-info" role="tab" aria-controls="nav-home" aria-selected="true">Basic Info</a>
+						<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#job-info" role="tab" aria-controls="nav-profile" aria-selected="false">Job</a>
+						<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#performance-info" role="tab" aria-controls="nav-contact" aria-selected="false">Performance</a>
+						<a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#leave-info" role="tab" aria-controls="nav-about" aria-selected="false">Leave</a>
+					</div>
+				</nav>
+				<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+					<div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="nav-home-tab">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-6">
+									<table >
+										<tr>
+											<td>
+												<strong> Name : </strong>
+											</td>
+											<td>
+												{{ personal_info.fullname }}
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<strong>Employee ID :</strong>
+											</td>
+											<td>
+												{{ user_info.id }}
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<strong>Department :</strong> 
+											</td>
+											<td>{{  job_info.department }}</td>
+										</tr>
+									</table>
+									
+									
+									
+								</div>
+								<div class="col-md-6">
+									<table >
+										<tr>
+											<td> <strong> Email : </strong> </td>
+											<td>{{ user_info.email }}</td>
+										</tr>
+										<tr>
+											<td><strong>Phone : </strong></td>
+											<td>{{ personal_info.phone_number }}</td>
+										</tr>
+										<tr>
+											<td><strong>Title : </strong></td>
+											<td> {{  job_info.job_title }}</td>
+										</tr>
+									</table>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="job-info" role="tabpanel" aria-labelledby="nav-profile-tab">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-6">
+									<table >
+										<tr>
+											<td>
+												<strong> Department : </strong>
+											</td>
+											<td>
+												{{  job_info.department }}
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<strong>Role :</strong>
+											</td>
+											<td>
+												{{ job_info.roles }}
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<strong>Rank :</strong> 
+											</td>
+											<td>{{  job_info.rank }}</td>
+										</tr>
+									</table>
+									
+									
+									
+								</div>
+								<div class="col-md-6">
+									<table >
+										<tr>
+											<td> <strong> Title : </strong> </td>
+											<td>{{ job_info.job_title }}</td>
+										</tr> 
+										<tr>
+											<td><strong>Working hours : </strong></td>
+											<td>{{ job_info.working_hours }}</td>
+										</tr>
+										<tr>
+											<td><strong>Pay Grade : </strong></td>
+											<td> {{  job_info.Pay_Grade }} </td>
+										</tr>
+									</table>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="performance-info" role="tabpanel" aria-labelledby="nav-contact-tab">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-6">
+									<table >
+										Comming Soon !!
+									</table>
+									
+									
+									
+								</div>
+								<div class="col-md-6">
+									<table>
+
+									</table>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="leave-info" role="tabpanel" aria-labelledby="nav-about-tab">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-6">
+									<table >
+										Comming Soon !!
+									</table>
+									
+									
+									
+								</div>
+								<div class="col-md-6">
+									<table>
+
+									</table>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+</section>

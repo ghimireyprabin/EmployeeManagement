@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView,De
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def index(request):
 	# checking if employee information are updated
@@ -53,3 +54,23 @@ class EExICreateView(CreateView, LoginRequiredMixin):
 	def form_valid(self, form):
 		form.instance.user = self.request.user
 		return super().form_valid(form)
+
+@login_required
+def profile(request):
+	# checking if employee information is updated
+	EPIRecord = EmployeePersonalInfo.objects.filter(user= request.user)
+	if not EPIRecord:
+		messages.info(request, f'Please update your personal information.')
+		return redirect('core:add-personal-info')
+
+	personal_info = EmployeePersonalInfo.objects.get(user=request.user)
+	job_info = EmployeeJobInfo.objects.get(user=request.user)
+	user_info = request.user
+
+	context = {
+		'personal_info' : personal_info,
+		'job_info' : job_info, 
+		'user_info' : user_info
+	}
+
+	return render(request, 'core/profile.html', context)
