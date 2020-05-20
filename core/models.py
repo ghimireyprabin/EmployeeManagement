@@ -57,14 +57,28 @@ class Department(models.Model):
 	def __str__(self):
 		return self.name
 
+class Role(models.Model):
+	name = models.CharField(max_length=60)
+	description = models.CharField(max_length=264)
+
+	def __str__(self):
+		return self.name
+
+class PayGrade(models.Model):
+	grade = models.CharField(max_length=60)
+	amount = models.PositiveIntegerField()
+
+	def __str__(self):
+		return self.grade
+
 class EmployeeJobInfo(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	job_title = models.CharField(max_length=50)
 	rank = models.CharField(max_length=25, choices=rank_choices)
 	working_hours = models.CharField(max_length=25, choices=working_hours_choices)
 	department = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
-
-	
+	roles = models.ForeignKey(Role, on_delete=models.SET_NULL, blank=True, null=True)
+	Pay_Grade = models.ForeignKey(PayGrade, on_delete=models.SET_NULL, blank=True, null=True)
 
 
 	def __str__(self):
