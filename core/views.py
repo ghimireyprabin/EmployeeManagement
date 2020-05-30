@@ -5,9 +5,10 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/login')
 def index(request):
 	# checking if employee information are updated
-	EPIRecord = EmployeePersonalInfo.objects.filter(user= request.user)
+	EPIRecord = EmployeePersonalInfo.objects.get(user= request.user)
 	if not EPIRecord:
 		messages.info(request, f'Please update your personal information.')
 		return redirect('core:add-personal-info')
@@ -55,7 +56,7 @@ class EExICreateView(CreateView, LoginRequiredMixin):
 		form.instance.user = self.request.user
 		return super().form_valid(form)
 
-@login_required
+@login_required(login_url='/login')
 def profile(request):
 	# checking if employee information is updated
 	EPIRecord = EmployeePersonalInfo.objects.filter(user= request.user)
@@ -64,7 +65,17 @@ def profile(request):
 		return redirect('core:add-personal-info')
 
 	personal_info = EmployeePersonalInfo.objects.get(user=request.user)
-	job_info = EmployeeJobInfo.objects.get(user=request.user)
+	try:
+		job_info = EmployeeJobInfo.objects.get(user=request.user)
+	except:
+		job_info = {
+			'department' : 'N/A',
+			'job_title' : 'N/A',
+			'rank' : 'N/A',
+			'working_hours' : 'N/A',
+			'roles' : 'N/A',
+			'Pay_Grade' : 'N/A'
+		}
 	user_info = request.user
 
 	context = {
