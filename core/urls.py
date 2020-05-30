@@ -13,4 +13,5 @@ urlpatterns = [
     path('update-profile-pic/<int:pk>', ProfilePicIUpdateView.as_view(), name='update-profile-pic'),
 
     path('register', register_views.register, name='register'),
+    
 ]
