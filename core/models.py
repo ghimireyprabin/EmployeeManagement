@@ -24,6 +24,7 @@ class EmployeePersonalInfo(models.Model):
 	fullname = models.CharField(max_length=50)
 	gender = models.CharField(max_length=25, choices=gender_choices)
 	age = models.IntegerField()
+	image = models.ImageField(default="default.png", upload_to='profile_pics')
 	address = models.CharField(max_length=50)
 	phone_number = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{1,15}$')])
 

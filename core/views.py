@@ -109,3 +109,27 @@ class EPIUpdateView(UpdateView, LoginRequiredMixin,UserPassesTestMixin):
 				return redirect('core:update-personal-info', pk=EmployeePersonalInfo_data[0].pk)
 		return super(EPIUpdateView, self).dispatch(
 	    request, *args, **kwargs)
+
+# EmployeeProfilePics(EPI) Update view
+class ProfilePicIUpdateView(UpdateView, LoginRequiredMixin,UserPassesTestMixin):
+	model = EmployeePersonalInfo
+	fields = ['image']
+	template_name = 'core/epicreate.html'
+	success_url = '/profile'
+
+	def user_passes_test(self, request):
+		if request.user.is_authenticated:
+		    self.object = self.get_object()
+		    return self.object.user == request.user
+		return False
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			EmployeePersonalInfo_data = EmployeePersonalInfo.objects.filter(user=self.request.user)
+			
+			if not self.user_passes_test(request):
+				if not EmployeePersonalInfo_data:
+					return redirect('core:add-personal-info')
+				return redirect('core:update-profile-pic', pk=EmployeePersonalInfo_data[0].pk)
+		return super(ProfilePicIUpdateView, self).dispatch(
+	    request, *args, **kwargs)

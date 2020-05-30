@@ -10,6 +10,7 @@ urlpatterns = [
     path('add-experience-info', EExICreateView.as_view(), name='add-experience-info'),    
     path('profile', profile, name='profile'),
     path('update-personal-info/<int:pk>', EPIUpdateView.as_view(), name='update-personal-info'),
+    path('update-profile-pic/<int:pk>', ProfilePicIUpdateView.as_view(), name='update-profile-pic'),
 
     path('register', register_views.register, name='register'),
 ]
