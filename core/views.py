@@ -1,13 +1,51 @@
 from django.shortcuts import render,redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView,DeleteView
+from django.views import View 
+from django.views.generic import ListView, DetailView, CreateView, UpdateView,DeleteView, TemplateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth import authenticate, login
+
+
 from .models import *
+from .forms import * 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+
+
+class AdminRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        usr = request.user
+        if usr.is_authenticated and usr.is_superuser:
+            pass
+        else:
+            return redirect('/register/')
+
+        return super().dispatch(request, *args, **kwargs)
+
+class LoginView(FormView):
+    template_name = 'core/login.html'
+    form_class = LoginForm
+    success_url = '/admincrud'
+
+    def form_valid(self, form):
+        uname = form.cleaned_data['username']
+        pword = form.cleaned_data['password']
+
+        user = authenticate(username=uname, password=pword)
+        self.thisuser = user
+        if user is not None:
+            login(self.request, user)
+        else:
+            return render(self.request, self.template_name, {
+                'error': 'your username doesnot exist',
+                'form': form
+            })
+        return super().form_valid(form)
+
+@login_required(login_url='/login')
 def index(request):
 	# checking if employee information are updated
-	EPIRecord = EmployeePersonalInfo.objects.filter(user= request.user)
+	EPIRecord = EmployeePersonalInfo.objects.get(user= request.user)
 	if not EPIRecord:
 		messages.info(request, f'Please update your personal information.')
 		return redirect('core:add-personal-info')
@@ -55,7 +93,7 @@ class EExICreateView(CreateView, LoginRequiredMixin):
 		form.instance.user = self.request.user
 		return super().form_valid(form)
 
-@login_required
+@login_required(login_url='/login')
 def profile(request):
 	# checking if employee information is updated
 	EPIRecord = EmployeePersonalInfo.objects.filter(user= request.user)
@@ -64,7 +102,17 @@ def profile(request):
 		return redirect('core:add-personal-info')
 
 	personal_info = EmployeePersonalInfo.objects.get(user=request.user)
-	job_info = EmployeeJobInfo.objects.get(user=request.user)
+	try:
+		job_info = EmployeeJobInfo.objects.get(user=request.user)
+	except:
+		job_info = {
+			'department' : 'N/A',
+			'job_title' : 'N/A',
+			'rank' : 'N/A',
+			'working_hours' : 'N/A',
+			'roles' : 'N/A',
+			'Pay_Grade' : 'N/A'
+		}
 	user_info = request.user
 
 	context = {
@@ -74,3 +122,66 @@ def profile(request):
 	}
 
 	return render(request, 'core/profile.html', context)
+
+# EmployeePersonalInfo(EPI) Update view
+class EPIUpdateView(UpdateView, LoginRequiredMixin,UserPassesTestMixin):
+	model = EmployeePersonalInfo
+	fields = ['fullname', 'gender', 'age', 'address', 'phone_number']
+	template_name = 'core/epicreate.html'
+	success_url = '/profile'
+
+	def user_passes_test(self, request):
+		if request.user.is_authenticated:
+		    self.object = self.get_object()
+		    return self.object.user == request.user
+		return False
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			EmployeePersonalInfo_data = EmployeePersonalInfo.objects.filter(user=self.request.user)
+			
+			if not self.user_passes_test(request):
+				if not EmployeePersonalInfo_data:
+					return redirect('core:add-personal-info')
+				return redirect('core:update-personal-info', pk=EmployeePersonalInfo_data[0].pk)
+		return super(EPIUpdateView, self).dispatch(
+	    request, *args, **kwargs)
+
+# EmployeeProfilePics(EPI) Update view
+class ProfilePicIUpdateView(UpdateView, LoginRequiredMixin,UserPassesTestMixin):
+	model = EmployeePersonalInfo
+	fields = ['image']
+	template_name = 'core/epicreate.html'
+	success_url = '/profile'
+
+	def user_passes_test(self, request):
+		if request.user.is_authenticated:
+		    self.object = self.get_object()
+		    return self.object.user == request.user
+		return False
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			EmployeePersonalInfo_data = EmployeePersonalInfo.objects.filter(user=self.request.user)
+			
+			if not self.user_passes_test(request):
+				if not EmployeePersonalInfo_data:
+					return redirect('core:add-personal-info')
+				return redirect('core:update-profile-pic', pk=EmployeePersonalInfo_data[0].pk)
+		return super(ProfilePicIUpdateView, self).dispatch(
+	    request, *args, **kwargs)
+
+
+#view for admin Access and roles that will be used later 
+
+# class AdminRole(View):
+# 	''' Admin's role maybe '''
+
+# 	a = str(roles_admin[0])
+# 	if a == "admin":
+# 		print ("hello")
+
+
+class AdminCrud(AdminRequiredMixin, TemplateView):
+	template_name = "crud.html"
+

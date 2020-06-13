@@ -6,7 +6,7 @@
       <div class="row" >
         <div class="col-md-4">
           <div class="mb-4 shadow-sm" >
-            <img class="bd-placeholder-img card-img-top profile_image" src="{% static 'core/images/avatar.png' %}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></img>
+            <img class="bd-placeholder-img card-img-top profile_image" src="{{ personal_info.image.url }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></img>
            
             
           </div>
@@ -16,8 +16,13 @@
         	<h6 class=jobtitle> {{ job_info.job_title }}</h6>
         	<p> <i class="fas fa-envelope"></i> {{ user_info.email }} <br />
         	<i class="fas fa-phone"></i> {{ personal_info.phone_number }} </p>
-
-        	<button type="submit" class="btn btn-success">Update Info</button>
+            <a href="{% url 'core:update-personal-info' user_info.pk %}">
+            	<button type="submit" class="btn btn-success">Update Info</button>
+            </a>
+            &nbsp; 
+            <a href="{% url 'core:update-profile-pic' user_info.pk %}">
+                <button type="submit" class="btn btn-success">Update Profile Picture</button>
+            </a>
 
         </div>
       </div>
