@@ -23,3 +23,25 @@ class AdminCrud(AdminRequiredMixin, ListView):
 		context['department'] = Department.objects.all()
 		return context
 
+class userProfile(AdminRequiredMixin, ListView):
+	template_name = "core/profile.html"
+	model = User
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)   
+		context['personal_info'] = EmployeePersonalInfo.objects.get(pk= self.kwargs['pk'])
+		context['user_info'] = context['personal_info'].user
+		try:
+			context['job_info'] = EmployeeJobInfo.objects.get(user=user_info)
+		except:
+			context['job_info'] = {
+				'department' : 'N/A',
+				'job_title' : 'N/A',
+				'rank' : 'N/A',
+				'working_hours' : 'N/A',
+				'roles' : 'N/A',
+				'Pay_Grade' : 'N/A'
+			}
+		if self.request.user != context['user_info']:
+			context['is_logged_profile'] = False
+		return context

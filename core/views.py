@@ -140,7 +140,7 @@ class EPIUpdateView(UpdateView, LoginRequiredMixin,UserPassesTestMixin):
 		if request.user.is_authenticated:
 	
 			EmployeePersonalInfo_data = EmployeePersonalInfo.objects.filter(user=self.request.user)
-			i = 4
+			
 			if not self.user_passes_test(request):
 				if not EmployeePersonalInfo_data:
 					return redirect('core:add-personal-info')

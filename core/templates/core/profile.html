@@ -16,13 +16,25 @@
         	<h6 class=jobtitle> {{ job_info.job_title }}</h6>
         	<p> <i class="fas fa-envelope"></i> {{ user_info.email }} <br />
         	<i class="fas fa-phone"></i> {{ personal_info.phone_number }} </p>
-            <a href="{% url 'core:update-personal-info' personal_info.pk %}">
-            	<button type="submit" class="btn btn-success">Update Info</button>
-            </a>
-            &nbsp; 
-            <a href="{% url 'core:update-profile-pic' user_info.pk %}">
-                <button type="submit" class="btn btn-success">Update Profile Picture</button>
-            </a>
+            {% if is_logged_profile == False %}
+                <a href="{% url 'core:update-personal-info' personal_info.pk %}">
+
+                	<button disabled="" type="submit" class="btn btn-success">Update Info</button>
+                </a>
+                &nbsp; 
+                <a href="{% url 'core:update-profile-pic' personal_info.pk %}">
+                    <button disabled="" type="submit" class="btn btn-success">Update Profile Picture</button>
+                </a>
+            {% else %}
+                <a href="{% url 'core:update-personal-info' personal_info.pk %}">
+
+                <button type="submit" class="btn btn-success">Update Info</button>
+                </a>
+                &nbsp; 
+                <a href="{% url 'core:update-profile-pic' personal_info.pk %}">
+                    <button type="submit" class="btn btn-success">Update Profile Picture</button>
+                </a>
+            {% endif %}
 
         </div>
       </div>
@@ -42,6 +54,7 @@
     		</div>
     	</div>
     </div>
+
     
 
 {% endblock %}

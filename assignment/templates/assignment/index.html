@@ -40,7 +40,7 @@
 		
 			{% for object in object_list %}
 				<tr>
-			    	<td> <a href="#">
+			    	<td> <a href="{% url 'assignment:userprofile' object.pk %}">
 			    		{{ object.user}}
 			    	</a></td>
 			    	<td> {{ object.fullname }}</td>
@@ -52,4 +52,9 @@
 		
 		
 	</table>
+
+
+
+
+
 
