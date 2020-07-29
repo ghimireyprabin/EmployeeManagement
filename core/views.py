@@ -45,7 +45,8 @@ class LoginView(FormView):
 @login_required(login_url='/login')
 def index(request):
 	# checking if employee information are updated
-	EPIRecord = EmployeePersonalInfo.objects.get(user= request.user)
+	EPIRecord = EmployeePersonalInfo.objects.filter(user= request.user)
+	
 	if not EPIRecord:
 		messages.info(request, f'Please update your personal information.')
 		return redirect('core:add-personal-info')
@@ -120,7 +121,6 @@ def profile(request):
 		'job_info' : job_info, 
 		'user_info' : user_info
 	}
-
 	return render(request, 'core/profile.html', context)
 
 # EmployeePersonalInfo(EPI) Update view
@@ -138,12 +138,14 @@ class EPIUpdateView(UpdateView, LoginRequiredMixin,UserPassesTestMixin):
 
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
+	
 			EmployeePersonalInfo_data = EmployeePersonalInfo.objects.filter(user=self.request.user)
-			
+			i = 4
 			if not self.user_passes_test(request):
 				if not EmployeePersonalInfo_data:
 					return redirect('core:add-personal-info')
 				return redirect('core:update-personal-info', pk=EmployeePersonalInfo_data[0].pk)
+		
 		return super(EPIUpdateView, self).dispatch(
 	    request, *args, **kwargs)
 

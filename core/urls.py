@@ -13,7 +13,7 @@ urlpatterns = [
     path('update-profile-pic/<int:pk>', ProfilePicIUpdateView.as_view(), name='update-profile-pic'),
 
     path('register', register_views.register, name='register'),
-    path('login/', LoginView.as_view(), name='login'),
+    # path('login/', LoginView.as_view(), name='login'),
 
     path('admincrud/', AdminCrud.as_view(), name='admincrud'),
 
