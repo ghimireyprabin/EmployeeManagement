@@ -26,6 +26,10 @@ h1{
 	text-align: center;
 }
 
+td > a{
+	color: white;
+}
+
 .add-dept{
 	color: black;
 	background-color: #303d4f;

@@ -20,10 +20,18 @@
 			    	</a></td>
 			    	<td> {{ department.description }}</td>
 			    	<td> Manager Name</td>
-			    	<td> 15 </td>
+			    	<td> 
+			    		{% for dept in department_count  %}
+							{% if dept.department_name == department.name %}
+								{{ dept.count }}
+							{% endif %}
+					{% endfor %}
+			    	</td>
 			    </tr>
 			{% endfor %}
 	</table>	
+
+
 
 {% endblock %}
 
