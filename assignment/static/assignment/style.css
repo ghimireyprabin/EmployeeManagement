@@ -3,6 +3,7 @@ table {
 	  border-collapse: collapse;
 	  width: 94%;
 	  margin-left: 3%;
+	  margin-top: 3%
 }
 
 td, th {
@@ -23,4 +24,11 @@ a:hover{
 }
 h1{
 	text-align: center;
+}
+
+.add-dept{
+	color: black;
+	background-color: #303d4f;
+	margin-left: 3%;
+	padding: 5px;
 }

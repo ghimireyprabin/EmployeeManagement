@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'core',
     'register',
     'assignment',
+    'createMode',
     'crispy_forms',
     'debug_toolbar'
 ]

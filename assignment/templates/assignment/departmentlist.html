@@ -3,6 +3,9 @@
 {% block content %}
 
 	<h1>Department List</h1>
+	<a class='add-dept' href="{% url 'createMode:create-departent' %}">
+		Add new department
+	</a>
 	<table>
 		<tr>
 			<th>Department Name</th>

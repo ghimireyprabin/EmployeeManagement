@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('ad/', include('assignment.urls')),
+    path('create/', include('createMode.urls')),
     path('', include("django.contrib.auth.urls")),
 ]
 if settings.DEBUG:

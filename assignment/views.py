@@ -51,9 +51,7 @@ class DepartmentList(AdminRequiredMixin, ListView):
 	model = Department
 	context_object_name = 'department'
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)    
-		context['department'] = Department.objects.all()
-		for dept in context['department']:
-			print(dept.name)
-		return context
+	# def get_context_data(self, **kwargs):
+	# 	context = super().get_context_data(**kwargs)    
+	# 	context['department'] = Department.objects.all()
+	# 	return context
