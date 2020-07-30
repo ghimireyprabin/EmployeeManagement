@@ -45,3 +45,15 @@ class userProfile(AdminRequiredMixin, ListView):
 		if self.request.user != context['user_info']:
 			context['is_logged_profile'] = False
 		return context
+
+class DepartmentList(AdminRequiredMixin, ListView):
+	template_name = "assignment/departmentlist.html"
+	model = Department
+	context_object_name = 'department'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)    
+		context['department'] = Department.objects.all()
+		for dept in context['department']:
+			print(dept.name)
+		return context
