@@ -12,6 +12,7 @@
 			<th>Description</th>
 			<th>Manager</th>
 			<th>No. of employees</th>
+			<th></th>
 		</tr>
 			{% for department in department %}
 				<tr>
@@ -26,6 +27,9 @@
 								{{ dept.count }}
 							{% endif %}
 					{% endfor %}
+			    	</td>
+			    	<td>
+			    		<a href="{% url 'createMode:update-department' department.pk %}">Update</a>
 			    	</td>
 			    </tr>
 			{% endfor %}
