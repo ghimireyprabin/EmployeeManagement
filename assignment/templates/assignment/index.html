@@ -2,25 +2,9 @@
 
 {% block content %}
 
-	<h1>User List</h1>
-	<table>
-		<tr>
-			<th>username</th>
-			<th>Full Name</th>
-			<th>Age</th>
-			<th>Address</th>
-		</tr>
-			{% for object in object_list %}
-				<tr>
-			    	<td> <a href="{% url 'assignment:userprofile' object.pk %}">
-			    		{{ object.user}}
-			    	</a></td>
-			    	<td> {{ object.fullname }}</td>
-			    	<td> {{ object.age }}</td>
-			    	<td> {{ object.address }} </td>
-			    </tr>
-			{% endfor %}
-		
-	</table>
+	<div style="text-align: center; margin-top: 55px">
+		<a style="" href="{% url 'assignment:department-list' %}"><h1> Department List </h1></a>
+	</div>
+
 
 {% endblock %}

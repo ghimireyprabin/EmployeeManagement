@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+	<h3>User List</h3>
+
+				<div class="box-element">
+					<a class="btn btn-outline-light" href="{% url 'assignment:department-list' %}">&#x2190; 
+					Go Back
+					</a>
+
+				</div>
+
+	<table>
+		<tr>
+			<th>username</th>
+			<th>Full Name</th>
+			<th>Department</th>
+			<th>Project</th>
+			<th>Job title</th>
+			<th>Rank</th>
+			<th>Role</th>
+			<th>Hours</th>
+			<th>Age</th>
+			<th>Address</th>
+			<th></th>
+		</tr>
+			{% for object in employee_info %}
+				<tr>
+			    	<td> <a href="{% url 'assignment:userprofile' object.pk %}">
+			    		{{ object.username}}
+			    	</a></td>
+			    	<td> {{ object.fullname }}</td>
+			    	<td>{{ object.department }}</td>
+			    	<td> To be added </td>
+			    	<td>{{ object.job_title }}</td>
+			    	<td> {{ object.rank }} </td>
+			    	<td> {{ object.roles }} </td>
+			    	<td> {{ object.working_hours }} </td>
+			    	<td> {{ object.age }}</td>
+			    	<td> {{ object.address }} </td>
+			    	<td>
+			    		<a href="{% url 'createMode:jobinfo-update' object.pk %}">Update job info</a>
+			    	</td>
+			    </tr>
+			{% endfor %}
+		
+	</table>
+
+{% endblock %}
