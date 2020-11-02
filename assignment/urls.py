@@ -9,4 +9,5 @@ urlpatterns = [
     path('department-list', DepartmentList.as_view(), name='department-list'),
     path('unassigned-list', unassignedUserList.as_view(), name='unassigned-list'),
     path('assign-dept-manager', departmentManagerCreateView.as_view(), name='assign-dept-manager'),
+    path('update-dept-manager/<int:pk>', departmentManagerUpdateView.as_view(), name='update-dept-manager'),
 ]

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView, CreateView
+from django.views.generic import ListView, TemplateView, CreateView, UpdateView
 from django.contrib.auth.models import User
 from core.models import *
 
@@ -119,4 +119,10 @@ class departmentManagerCreateView(AdminRequiredMixin, CreateView):
 	model = DepartmentManager
 	fields = ['department', 'user']
 	template_name = "assignment/assign_manager.html"
+	success_url = reverse_lazy('assignment:department-list')
+
+class departmentManagerUpdateView(AdminRequiredMixin, UpdateView):
+	model = DepartmentManager
+	fields = ['department', 'user']
+	template_name = "assignment/update_manager.html"
 	success_url = reverse_lazy('assignment:department-list')
