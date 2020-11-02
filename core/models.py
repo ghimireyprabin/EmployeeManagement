@@ -85,4 +85,10 @@ class EmployeeJobInfo(models.Model):
 	def __str__(self):
 		return self.user.username
 
-	
+class DepartmentManager(models.Model):
+	department = models.ForeignKey(Department, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return f'{self.department.name}-{self.user.username}'
+
