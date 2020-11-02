@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView, CreateView, UpdateView
+from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from core.models import *
 
@@ -131,4 +131,15 @@ class departmentManagerUpdateView(AdminRequiredMixin, UpdateView):
 	model = DepartmentManager
 	fields = ['department', 'user']
 	template_name = "assignment/update_manager.html"
+	success_url = reverse_lazy('assignment:department-list')
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)   
+		context['dept_pk'] = self.kwargs['pk']
+
+		return context
+
+class departmentManagerDeleteView(AdminRequiredMixin, DeleteView):
+	model = DepartmentManager
+	template_name = "assignment/delete_manager.html"
 	success_url = reverse_lazy('assignment:department-list')
