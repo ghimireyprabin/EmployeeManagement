@@ -3,8 +3,12 @@
 {% block content %}
 
 	<h1>Department List</h1>
+	<br>
 	<a class='add-dept' href="{% url 'createMode:create-departent' %}">
 		Add new department
+	</a>
+	<a class='add-dept' href="{% url 'assignment:assign-dept-manager' %}">
+		Assign new manager
 	</a>
 	<a class='add-dept' href="{% url 'assignment:unassigned-list' %}">
 		View unassigned users
@@ -23,7 +27,18 @@
 			    		{{ department.name}}
 			    	</a></td>
 			    	<td> {{ department.description }}</td>
-			    	<td> Manager Name</td>
+			    	<td>
+			    		{% for managers in dept_manager  %}
+							{% if managers.department_name == department.name %}
+								{% for manager in managers.dept_manager %}
+									{{ manager.user.username }}
+									&nbsp;
+									<a href="{% url 'assignment:update-dept-manager' manager.pk %}"><i class="fas fa-cog"></i></a>
+									&nbsp;
+								{% endfor %}
+							{% endif %}
+						{% endfor %} 
+			    	</td>
 			    	<td> 
 			    		{% for dept in department_count  %}
 							{% if dept.department_name == department.name %}

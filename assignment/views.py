@@ -79,11 +79,17 @@ class DepartmentList(AdminRequiredMixin, ListView):
 		context = super().get_context_data(**kwargs)    
 		context['department'] = Department.objects.all()
 		context['department_count'] = []
+		context['dept_manager'] = []
 		for dept in context['department']:
+			dept_manager = {
+				'department_name': dept.name,
+				'dept_manager' : DepartmentManager.objects.filter(department=dept)
+			}
 			count = {
 				'department_name': dept.name,
 				'count' : EmployeeJobInfo.objects.filter(department=dept).count()
 			}
+			context['dept_manager'].append(dept_manager)
 			context['department_count'].append(count)
 		return context
 
