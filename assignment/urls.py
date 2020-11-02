@@ -7,5 +7,6 @@ urlpatterns = [
     path('userlist/<int:pk>', userList.as_view(), name='userlist'),
     path('userprofile/<int:pk>', userProfile.as_view(), name='userprofile'),
     path('department-list', DepartmentList.as_view(), name='department-list'),
-    path('unassigned-list', unassignedUserList.as_view(), name='unassigned-list')
+    path('unassigned-list', unassignedUserList.as_view(), name='unassigned-list'),
+    path('assign-dept-manager', departmentManagerCreateView.as_view(), name='assign-dept-manager'),
 ]
