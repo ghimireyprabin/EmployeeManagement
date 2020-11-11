@@ -40,7 +40,8 @@ class userList(AdminRequiredMixin, ListView):
 				'rank' : user.rank,
 				'working_hours' : user.working_hours,
 				'roles' : user.roles,
-
+				'isManager' : user.isManager,
+				'user_pk' : user.pk
 			}
 			employee_info.append(emp_info)
 		context['employee_info'] = employee_info
@@ -87,7 +88,8 @@ class DepartmentList(AdminRequiredMixin, ListView):
 			}
 			count = {
 				'department_name': dept.name,
-				'count' : EmployeeJobInfo.objects.filter(department=dept).count()
+				'count' : EmployeeJobInfo.objects.filter(department=dept).count(),
+				'dept_manager' : EmployeeJobInfo.objects.filter(department=dept).filter(isManager=True)
 			}
 			context['dept_manager'].append(dept_manager)
 			context['department_count'].append(count)
@@ -113,33 +115,34 @@ class unassignedUserList(AdminRequiredMixin, ListView):
 				'job_title' : user.job_title,
 				'rank' : user.rank,
 				'working_hours' : user.working_hours,
-				'roles' : user.roles
-
+				'roles' : user.roles,
+				'user_pk' : user.pk
 			}
 			employee_info.append(emp_info)
 		context['employee_info'] = employee_info
-
 		return context
 
-class departmentManagerCreateView(AdminRequiredMixin, CreateView):
-	model = DepartmentManager
-	fields = ['department', 'user']
-	template_name = "assignment/assign_manager.html"
-	success_url = reverse_lazy('assignment:department-list')
 
-class departmentManagerUpdateView(AdminRequiredMixin, UpdateView):
-	model = DepartmentManager
-	fields = ['department', 'user']
-	template_name = "assignment/update_manager.html"
-	success_url = reverse_lazy('assignment:department-list')
+# For seperate dept manager model system
+# class departmentManagerCreateView(AdminRequiredMixin, CreateView):
+# 	model = DepartmentManager
+# 	fields = ['department', 'user']
+# 	template_name = "assignment/assign_manager.html"
+# 	success_url = reverse_lazy('assignment:department-list')
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)   
-		context['dept_pk'] = self.kwargs['pk']
+# class departmentManagerUpdateView(AdminRequiredMixin, UpdateView):
+# 	model = DepartmentManager
+# 	fields = ['department', 'user']
+# 	template_name = "assignment/update_manager.html"
+# 	success_url = reverse_lazy('assignment:department-list')
 
-		return context
+# 	def get_context_data(self, **kwargs):
+# 		context = super().get_context_data(**kwargs)   
+# 		context['dept_pk'] = self.kwargs['pk']
 
-class departmentManagerDeleteView(AdminRequiredMixin, DeleteView):
-	model = DepartmentManager
-	template_name = "assignment/delete_manager.html"
-	success_url = reverse_lazy('assignment:department-list')
+# 		return context
+
+# class departmentManagerDeleteView(AdminRequiredMixin, DeleteView):
+# 	model = DepartmentManager
+# 	template_name = "assignment/delete_manager.html"
+# 	success_url = reverse_lazy('assignment:department-list')

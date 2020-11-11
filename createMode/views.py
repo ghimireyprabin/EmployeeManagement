@@ -28,12 +28,12 @@ class DepartmentUpdateView(AdminRequiredMixin, UpdateView):
 
 class JobInfoCreateView(AdminRequiredMixin, CreateView):
     model = EmployeeJobInfo
-    fields = ['user', 'job_title', 'rank', 'working_hours', 'department', 'roles', 'Pay_Grade']
+    fields = ['user', 'job_title', 'rank', 'working_hours', 'department', 'roles', 'Pay_Grade', 'isManager']
     template_name = 'createMode/jobinfo_form.html'
     success_url = reverse_lazy('assignment:department-list')
 
 class JobInfoUpdateView(AdminRequiredMixin, UpdateView):
     model = EmployeeJobInfo
-    fields = ['user', 'job_title', 'rank', 'working_hours', 'department', 'roles', 'Pay_Grade']
+    fields = ['user', 'job_title', 'rank', 'working_hours', 'department', 'roles', 'Pay_Grade', 'isManager']
     template_name = 'createMode/jobinfo_form.html'
     success_url = reverse_lazy('assignment:department-list')

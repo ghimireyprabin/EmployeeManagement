@@ -80,14 +80,14 @@ class EmployeeJobInfo(models.Model):
 	department = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
 	roles = models.ForeignKey(Role, on_delete=models.SET_NULL, blank=True, null=True)
 	Pay_Grade = models.ForeignKey(PayGrade, on_delete=models.SET_NULL, blank=True, null=True)
-
+	isManager = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.user.username
 
 class DepartmentManager(models.Model):
 	department = models.ForeignKey(Department, on_delete=models.CASCADE)
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, on_delete=models.SET_NULL, blank=True, null=True)
 
 	def __str__(self):
 		return f'{self.department.name}-{self.user.username}'

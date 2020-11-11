@@ -21,8 +21,7 @@
 			<th>Rank</th>
 			<th>Role</th>
 			<th>Hours</th>
-			<th>Age</th>
-			<th>Address</th>
+			<th>isManager</th>
 			<th></th>
 		</tr>
 			{% for object in employee_info %}
@@ -37,10 +36,9 @@
 			    	<td> {{ object.rank }} </td>
 			    	<td> {{ object.roles }} </td>
 			    	<td> {{ object.working_hours }} </td>
-			    	<td> {{ object.age }}</td>
-			    	<td> {{ object.address }} </td>
+			    	<td> {{ object.isManager }}</td>
 			    	<td>
-			    		<a href="{% url 'createMode:jobinfo-update' object.pk %}">Update job info</a>
+			    		<a href="{% url 'createMode:jobinfo-update' object.user_pk %}">Update job info</a>
 			    	</td>
 			    </tr>
 			{% endfor %}
