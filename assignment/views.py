@@ -116,6 +116,7 @@ class unassignedUserList(AdminRequiredMixin, ListView):
 				'rank' : user.rank,
 				'working_hours' : user.working_hours,
 				'roles' : user.roles,
+				'isManager' : user.isManager,
 				'user_pk' : user.pk
 			}
 			employee_info.append(emp_info)
