@@ -97,3 +97,7 @@ section {
     color: rgb(204, 214, 246);
     font-size: 20px;
 }
+
+.msg{
+	text-align: center;
+}

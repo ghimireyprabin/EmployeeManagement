@@ -118,6 +118,16 @@ class submitTaskCreateView(CreateView):
     fields=['remarks']
     success_url = '/'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        task_info = Task.objects.get(pk=self.kwargs['pk'])
+        
+        context['task_info'] = task_info
+        print(context)
+        print(self.kwargs['pk'])
+        
+        return context
+
     def form_valid(self, form):
 
         form.instance.submitted_by = self.request.user
@@ -128,10 +138,11 @@ class submitTaskCreateView(CreateView):
         # if TaskReview.objects.get(task = task):
         if TaskReview.objects.filter(task=task).exists():
             messages.add_message(self.request, messages.WARNING, 'Task already submitted')
-            return render(self.request, self.template_name, {
-                'error': 'Task already submitted',
-                'form': form
-            })
+            return redirect('core:index')
+            # return render(self.request, self.template_name, {
+            #     'error': 'Task already submitted',
+            #     'form': form
+            # })
         else:
             if self.request.user.is_authenticated and self.request.user == task.assigned_to:
                 return super(submitTaskCreateView, self).form_valid(form)

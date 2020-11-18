@@ -18,6 +18,9 @@ class Task(models.Model):
 	assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='assigned_to_user')
 	created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='created_by_user')
 	created_at = models.DateTimeField(auto_now_add=True)
+	submitted = models.BooleanField(default=False)
+	reviewed = models.BooleanField(default=False)
+	review_id = models.PositiveIntegerField(blank=True, null=True)
 
 	def __str__(self):
 		return f'{self.department.name}-{self.title}'
@@ -34,3 +37,20 @@ class TaskReview(models.Model):
 
 	def __str__(self):
 		return f'{self.submitted_by.username}-{self.task.title}'
+
+	def save(self, *args, **kwargs):
+		try:
+			if self.submitted_by:
+				task = Task.objects.get(pk=self.task.pk)
+				if task.submitted == False:
+					task.submitted = True
+				if task.review_id == None:
+					task.review_id = self.pk
+
+				if self.reviewed_by != None:
+					if task.reviewed == False:
+						task.reviewed = True
+				task.save()
+		except e:
+			print(e)
+		super(TaskReview, self).save(*args, **kwargs)

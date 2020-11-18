@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 
 
 from .models import *
+from createMode.models import *
 from .forms import * 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -59,7 +60,14 @@ def index(request):
 		messages.info(request, f'Please update your experience information.')
 		return redirect('core:add-experience-info')
 
-	return render(request, 'core/index.html')
+	tasks = Task.objects.filter(assigned_to = request.user)
+	
+	context = {
+		'assigned_tasks' : tasks.filter(submitted = False),
+		'submitted_tasks' : tasks.filter(submitted = True),
+	}
+
+	return render(request, 'core/index.html', context)
 
 # EmployeePersonalInfo(EPI) create view
 class EPICreateView(CreateView, LoginRequiredMixin):
@@ -172,6 +180,7 @@ class ProfilePicIUpdateView(UpdateView, LoginRequiredMixin,UserPassesTestMixin):
 				return redirect('core:update-profile-pic', pk=EmployeePersonalInfo_data[0].pk)
 		return super(ProfilePicIUpdateView, self).dispatch(
 	    request, *args, **kwargs)
+
 
 
 #view for admin Access and roles that will be used later 
