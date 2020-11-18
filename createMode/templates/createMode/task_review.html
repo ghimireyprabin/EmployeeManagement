@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="container" >
+		<br>
+		<h1>Review Task</h1>
+		<br><br>
+		<div class="row">
+			<div class="col-md">
+				<h3>Task Details:</h3>
+				<h5><strong>Title:</strong> <small>{{ task.title }}</small></h5>
+				<h5> <strong>Description:</strong>  <small>{{ task.description }}</small></h5>
+				<h5><strong>Submitted by:</strong> <small>{{ task_review.submitted_by.username }}</small></h5>
+				<h5><strong>Department: </strong><small>{{ task.department }}</small></h5>
+				<h5><strong>Deadline: </strong> <small>{{ task.deadline }}</small></h5>
+				<h5><strong>Submitted on:</strong> <small>{{ task_review.submitted_on }}</small></h5>
+				<h5><strong>Total Points: </strong> <small>{{ task.total_points }}</small></h5>
+			
+			</div>
+			<div class="col-md">
+				<form method='POST'>
+				{% csrf_token %}
+				{{ form|crispy }}
+				<button type="submit">Submit</button>
+			</form>
+			</div>
+
+		</div>
+		
+	</div>
+
+{% endblock %}

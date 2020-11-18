@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task
+from .models import Task, TaskReview
 from django.contrib.auth.models import User
 from core.models import *
 
@@ -21,3 +21,18 @@ class TaskForm(forms.ModelForm):
 		super(TaskForm, self).__init__(*args, **kwargs)
 		self.fields['department'].queryset = Department.objects.filter(pk = department.pk)
 		self.fields['assigned_to'].queryset = User.objects.select_related('employeejobinfo').filter(employeejobinfo__department=department)
+
+class TaskReviewForm(forms.ModelForm):
+
+	class Meta:
+		model = TaskReview 
+		fields = ('remarks', 'awarded_points', 'submission')
+
+	def __init__(self, *args, **kwargs):
+		# task_pk = kwargs.pop('task_pk')
+		task_review = TaskReview.objects.get(pk=kwargs.pop('task_review_pk'))
+		task_maxvalue = task_review.task.total_points
+		super(TaskReviewForm, self).__init__(*args, **kwargs)
+		
+		
+		self.fields['awarded_points'] = forms.IntegerField(min_value = 10, max_value=task_maxvalue)
