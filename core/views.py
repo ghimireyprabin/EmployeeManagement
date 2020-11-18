@@ -181,6 +181,11 @@ class ProfilePicIUpdateView(UpdateView, LoginRequiredMixin,UserPassesTestMixin):
 		return super(ProfilePicIUpdateView, self).dispatch(
 	    request, *args, **kwargs)
 
+# Details of a task review
+class TaskReviewDeailView(DetailView, LoginRequiredMixin):
+	model = TaskReview
+	template_name = 'core/review_details.html'
+	context_object_name = 'review'
 
 
 #view for admin Access and roles that will be used later 

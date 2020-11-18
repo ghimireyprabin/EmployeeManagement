@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+	<div class="container">
+
+		<div style="margin-left: 20%; margin-right: 20%; text-align: center">
+			{% if messages %}
+       			{% for message in messages %}
+
+     				<div class="alert alert-{{ message.tags }}">
+         				{{ message }}
+					</div>
+
+         		{% endfor %}
+        	{% endif %}
+		</div>	
+
+		<h1>Task Review Details</h1>
+
+		<div class="row">
+			<div class="col">
+				<h3>Task Details:</h3>
+				<h5><strong>Title:</strong> <small>{{ review.task.title }}</small></h5>
+				<h5> <strong>Description:</strong>  <small>{{ review.task.description }}</small></h5>
+				<h5><strong>Submitted by:</strong> <small>{{ review.submitted_by.username }}</small></h5>
+				<h5><strong>Department: </strong><small>{{ review.task.department }}</small></h5>
+				<h5><strong>Deadline: </strong> <small>{{ review.task.deadline }}</small></h5>
+				<h5><strong>Submitted on:</strong> <small>{{ review.submitted_on }}</small></h5>
+				<h5><strong>Total Points: </strong> <small>{{ review.task.total_points }}</small></h5>
+			</div>
+			<div class="col">
+				<h3>Review:</h3>
+				<h5><strong>Reviewed by:</strong> <small>{{ review.reviewed_by }}</small></h5>
+				<h5><strong>Reviewed on:</strong> <small>{{ review.reviewed_on }}</small></h5>
+				<h5><strong>Submission:</strong> <small>{{ review.submission }}</small></h5>
+				<h5><strong>Remarks:</strong> <small>{{ review.remarks }}</small></h5>
+				<h5><strong>Awarded Points:</strong> <small>{{ review.awarded_points }}</small></h5>
+
+				
+			</div>
+			
+		</div>
+	</div>
+
+
+{% endblock %}

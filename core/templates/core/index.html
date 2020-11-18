@@ -89,8 +89,9 @@
 					    	</td>
 					    	<td>
 					    		{% if task.reviewed is True %}
-					    			View Review
-					    			
+					    			<a href="{% url 'core:task-review-details' task.review_id %}">
+					    				View Review
+					    			</a>
 					    		{% endif %}
 					    	</td>
 					    </tr>
