@@ -213,8 +213,7 @@ class ManagerDashboard(ListView, LoginRequiredMixin, ManagerRequiredMixin):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		tasks = Task.objects.filter(created_by = self.request.user)
-		print(tasks)
-
+		
 		context['created_tasks'] = tasks.filter(assigned_to = None)
 		context['assigned_tasks'] = tasks.exclude(assigned_to = None).filter(submitted = False)
 		context['submitted_tasks'] = tasks.filter(submitted = True)		

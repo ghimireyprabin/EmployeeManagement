@@ -60,7 +60,7 @@
 					    		{{ task.total_points }}
 					    	</td>
 					    	<td>
-					    		<a href="#">Assign Task</a>
+					    		<a href="{% url 'createMode:assign-task' task.pk %}">Assign Task</a>
 					    	</td>
 					    </tr>
 					    {% endif %}

@@ -6,6 +6,7 @@ from .forms import TaskForm, TaskReviewForm
 from core.models import *
 from .models import Task, TaskReview
 from django. contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class AdminRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
@@ -72,6 +73,68 @@ class TaskCreateView(ManagerRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super(TaskCreateView, self).form_valid(form)
+
+class TaskUpdateView(LoginRequiredMixin, ManagerRequiredMixin, UpdateView):
+    model = Task
+    fields = ['department', 'title', 'description', 'total_points', 'assigned_to', 'deadline']
+    template_name = 'createMode/update_task.html'
+    
+    def form_valid(self, form):
+
+        form.instance.submitted_by = self.request.user
+        task_id = self.kwargs.get('pk')
+        task = Task.objects.get(pk = task_id)
+        
+        # if TaskReview.objects.get(task = task):
+        if task.reviewed:
+            messages.add_message(self.request, messages.WARNING, 'Task already reviewed. You cannot make further changes.')
+            return redirect('core:manager-dashboard')
+            # return render(self.request, self.template_name, {
+            #     'error': 'Task already submitted',
+            #     'form': form
+            # })
+        else:
+            if self.request.user.is_authenticated and self.request.user == task.created_by:
+                messages.add_message(self.request, messages.SUCCESS, 'Task successfully updated')
+                return super(TaskUpdateView, self).form_valid(form)
+            else:
+                messages.add_message(self.request, messages.WARNING, 'You are not authorized to modify this task.')
+                return redirect('core:manager-dashboard')
+                # return render(self.request, self.template_name, {
+                # 'error': 'You are not assigned to this task.',
+                # 'form': form
+            # })
+
+class TaskAssignView(LoginRequiredMixin, ManagerRequiredMixin, UpdateView):
+    model = Task
+    fields = ['assigned_to']
+    template_name = 'createMode/update_task.html'
+    
+    def form_valid(self, form):
+
+        form.instance.submitted_by = self.request.user
+        task_id = self.kwargs.get('pk')
+        task = Task.objects.get(pk = task_id)
+        
+        # if TaskReview.objects.get(task = task):
+        if task.reviewed:
+            messages.add_message(self.request, messages.WARNING, 'Task already reviewed. You cannot make further changes.')
+            return redirect('core:manager-dashboard')
+            # return render(self.request, self.template_name, {
+            #     'error': 'Task already submitted',
+            #     'form': form
+            # })
+        else:
+            if self.request.user.is_authenticated and self.request.user == task.created_by:
+                messages.add_message(self.request, messages.SUCCESS, 'successfully assigned to task.')
+                return super(TaskAssignView, self).form_valid(form)
+            else:
+                messages.add_message(self.request, messages.WARNING, 'You are not authorized to modify this task.')
+                return redirect('core:manager-dashboard')
+                # return render(self.request, self.template_name, {
+                # 'error': 'You are not assigned to this task.',
+                # 'form': form
+            # })
 
 class ReviewTask(ManagerRequiredMixin, UpdateView):
     model= TaskReview
