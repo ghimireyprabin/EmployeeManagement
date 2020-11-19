@@ -18,17 +18,15 @@
 		</div>	
 
 		<div class="box-element mt-4">
+			<a class="btn btn-outline-light" href="{% url 'core:index' %}"> 
+				Home
+			</a>
+
 			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
 				Profile
-		</a>
-			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
-				Submitted Tasks
 			</a>
-			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
-				Created Tasks
-			</a>
-			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
-				Department Tasks
+			<a class="btn btn-outline-light" href="{% url 'createMode:create-task' %}"> 
+				Create New Task
 			</a>
 			
 
@@ -97,6 +95,8 @@
 					    	</td>
 					    	<td>
 					    		{{ task.assigned_to }}
+					    		&nbsp;
+					    		<a href="{% url 'createMode:assign-task' task.pk %}"><i class="fas fa-cog"></i></a>
 					    	</td>
 					    </tr>
 					{% endfor %}
