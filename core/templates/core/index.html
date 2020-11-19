@@ -16,10 +16,18 @@
          		{% endfor %}
         	{% endif %}
 		</div>	
-	
-		<div style="text-align: center; margin-top: 55px">
-			<a style="" href="{% url 'core:profile' %}"><h1> Go to profile </h1></a>
-		</div>
+
+		<div class="box-element mt-4">
+			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
+				Profile
+			</a>
+			{% if isManager %}
+				<a class="btn btn-outline-light" href="{% url 'core:manager-dashboard' %}"> 
+					Manager Dashboard
+				</a>
+			{% endif %}
+
+		</div>		
 
 		<br>
 

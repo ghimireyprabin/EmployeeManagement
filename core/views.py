@@ -23,6 +23,17 @@ class AdminRequiredMixin(object):
 
         return super().dispatch(request, *args, **kwargs)
 
+class ManagerRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        usr = request.user
+        usr_job_info = EmployeeJobInfo.objects.get(user=usr)
+        if usr.is_authenticated and usr_job_info.isManager:
+            pass
+        else:
+            return redirect('core:index')
+
+        return super().dispatch(request, *args, **kwargs)
+
 class LoginView(FormView):
     template_name = 'core/login.html'
     form_class = LoginForm
@@ -60,11 +71,18 @@ def index(request):
 		messages.info(request, f'Please update your experience information.')
 		return redirect('core:add-experience-info')
 
+	isManager = False
+	EJI = EmployeeJobInfo.objects.filter(user = request.user)
+	
+	if EJI and EJI[0].isManager == True:
+		isManager = True
+
 	tasks = Task.objects.filter(assigned_to = request.user)
 	
 	context = {
 		'assigned_tasks' : tasks.filter(submitted = False),
 		'submitted_tasks' : tasks.filter(submitted = True),
+		'isManager' : isManager,
 	}
 
 	return render(request, 'core/index.html', context)
@@ -186,6 +204,22 @@ class TaskReviewDeailView(DetailView, LoginRequiredMixin):
 	model = TaskReview
 	template_name = 'core/review_details.html'
 	context_object_name = 'review'
+
+class ManagerDashboard(ListView, LoginRequiredMixin, ManagerRequiredMixin):
+	model = Task
+	template_name = 'core/manager_dashboard.html'
+	context_object_name = 'tasks'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		tasks = Task.objects.filter(created_by = self.request.user)
+		print(tasks)
+
+		context['created_tasks'] = tasks.filter(assigned_to = None)
+		context['assigned_tasks'] = tasks.exclude(assigned_to = None).filter(submitted = False)
+		context['submitted_tasks'] = tasks.filter(submitted = True)		
+
+		return context	
 
 
 #view for admin Access and roles that will be used later 

@@ -1,0 +1,167 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+
+	<div class="">
+
+		<div style="margin-left: 20%; margin-right: 20%; text-align: center">
+			{% if messages %}
+       			{% for message in messages %}
+
+     				<div class="alert alert-{{ message.tags }}">
+         				{{ message }}
+					</div>
+
+         		{% endfor %}
+        	{% endif %}
+		</div>	
+
+		<div class="box-element mt-4">
+			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
+				Profile
+		</a>
+			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
+				Submitted Tasks
+			</a>
+			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
+				Created Tasks
+			</a>
+			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
+				Department Tasks
+			</a>
+			
+
+		</div>		
+
+		<br>
+
+		<h1>Unassigned Tasks</h1>
+			{% if created_tasks %}
+			<table>
+				<tr>
+					<th>Task</th>
+					<th>Description</th>
+					<th>Deadline</th>
+					<th>Total Points</th>
+					<th></th>
+				</tr>
+					{% for task in created_tasks %}
+						{% if task.assigned_to == None %}
+						<tr>
+					    	<td> 
+					    		{{ task.title}}
+					    	</a></td>
+					    	<td> {{ task.description }}</td>
+					    	<td>
+								{{ task.deadline }}
+					    	</td>
+					    	<td> 
+					    		{{ task.total_points }}
+					    	</td>
+					    	<td>
+					    		<a href="#">Assign Task</a>
+					    	</td>
+					    </tr>
+					    {% endif %}
+					{% endfor %}
+			</table>
+			{% else %}
+				<h4 class="msg"> <small>You do not have any task left to assign at the moment.</small></h4>
+			{% endif %}
+
+		<br><br><br>
+
+		<h1>Assigned Tasks</h1>
+			{% if assigned_tasks %}
+			<table>
+				<tr>
+					<th>Task</th>
+					<th>Description</th>
+					<th>Deadline</th>
+					<th>Total Points</th>
+					<th>Assigned to</th>
+					
+				</tr>
+					{% for task in assigned_tasks %}
+						<tr>
+					    	<td> 
+					    		{{ task.title}}
+					    	</a></td>
+					    	<td> {{ task.description }}</td>
+					    	<td>
+								{{ task.deadline }}
+					    	</td>
+					    	<td> 
+					    		{{ task.total_points }}
+					    	</td>
+					    	<td>
+					    		{{ task.assigned_to }}
+					    	</td>
+					    </tr>
+					{% endfor %}
+			</table>
+			{% else %}
+				<h4 class="msg"> <small>No assiggned tasks at the moment.</small></h4>
+			{% endif %}
+
+		<br><br><br>
+
+		<h1>Submitted Tasks</h1>
+			{% if submitted_tasks %}
+			<table>
+				<tr>
+					<th>Task</th>
+					<th>Description</th>
+					<th>Deadline</th>
+					<th>Total Points</th>
+					<th>Assigned to</th>
+					<th>Review</th>
+					<th></th>
+					
+				</tr>
+					{% for task in submitted_tasks %}
+						<tr>
+					    	<td> 
+					    		{{ task.title}}
+					    	</a></td>
+					    	<td> {{ task.description }}</td>
+					    	<td>
+								{{ task.deadline }}
+					    	</td>
+					    	<td> 
+					    		{{ task.total_points }}
+					    	</td>
+					    	<td>
+					    		{{ task.assigned_to }}
+					    	</td>
+					    	<td>
+					    		{% if task.reviewed %}
+					    			<a href="{% url 'core:task-review-details' task.review_id %}">
+						    			Complete
+						    		</a>
+					    		{% else %}
+					    			Pending
+					    		{% endif %}
+					    	</td>
+					    	<td>
+					    		{% if task.reviewed %}
+					    			<a href="{% url 'createMode:task-review' task.review_id %}">
+					    				Update Review
+					    			</a>
+					    		{% else %}
+					    			<a href="{% url 'createMode:task-review' task.review_id %}">
+					    				Review Task
+					    			</a>					    	</td>
+					    </tr>
+					    {% endif %}
+					{% endfor %}
+			</table>
+			{% else %}
+				<h4 class="msg"> <small>No assiggned tasks at the moment.</small></h4>
+			{% endif %}
+
+		<br><br><br>
+
+	</div>
+{% endblock %}
