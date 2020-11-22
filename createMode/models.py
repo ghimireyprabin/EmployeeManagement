@@ -3,6 +3,8 @@ from django.shortcuts import reverse
 from django.core.validators import MaxValueValidator , MinValueValidator
 from core.models import Department
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 submission_choices = [
     ('Early', 'Early'),
@@ -48,8 +50,6 @@ class TaskReview(models.Model):
 				task = Task.objects.get(pk=self.task.pk)
 				if task.submitted == False:
 					task.submitted = True
-				if task.review_id == None:
-					task.review_id = self.pk
 
 				if self.reviewed_by != None:
 					if task.reviewed == False:
@@ -58,3 +58,12 @@ class TaskReview(models.Model):
 		except e:
 			print(e)
 		super(TaskReview, self).save(*args, **kwargs)
+
+# updating review_id in Task model after task is submitted
+@receiver(post_save, sender=TaskReview)
+def update_taskreview_id(sender, instance, created, **kwargs):
+	if created:
+		task = Task.objects.get(pk=instance.task.pk)
+		task.review_id = instance.pk
+		task.save()
+	
