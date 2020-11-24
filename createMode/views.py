@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
-from .forms import TaskForm, TaskReviewForm
+from .forms import TaskForm, TaskReviewForm, TaskAssignForm
 from core.models import *
 from .models import Task, TaskReview
 from django. contrib import messages
@@ -117,9 +117,18 @@ class TaskUpdateView(LoginRequiredMixin, ManagerRequiredMixin, UpdateView):
 
 class TaskAssignView(LoginRequiredMixin, ManagerRequiredMixin, UpdateView):
     model = Task
-    fields = ['assigned_to']
-    template_name = 'createMode/update_task.html'
+    # fields = ['assigned_to']
+    form_class = TaskAssignForm
+    template_name = 'createMode/assign_task.html'
     
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(TaskAssignView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
     def form_valid(self, form):
 
         form.instance.submitted_by = self.request.user

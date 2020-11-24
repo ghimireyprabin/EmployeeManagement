@@ -36,3 +36,14 @@ class TaskReviewForm(forms.ModelForm):
 		
 		
 		self.fields['awarded_points'] = forms.IntegerField(min_value = 10, max_value=task_maxvalue)
+
+class TaskAssignForm(forms.ModelForm):
+
+	class Meta:
+		model = Task 
+		fields = ('assigned_to',)
+
+	def __init__(self, *args, **kwargs):
+		department = EmployeeJobInfo.objects.filter(user=kwargs.pop('user'))[0].department
+		super(TaskAssignForm, self).__init__(*args, **kwargs)
+		self.fields['assigned_to'].queryset = User.objects.select_related('employeejobinfo').filter(employeejobinfo__department=department)

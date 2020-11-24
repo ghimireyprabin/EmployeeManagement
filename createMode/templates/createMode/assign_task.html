@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+    <!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+{% endblock %}
+
+{% block content %}
+	
+	<div style="margin-left: 20%; margin-right: 20%; text-align: center">
+		{% if messages %}
+       		{% for message in messages %}
+
+     			<div class="alert alert-{{ message.tags }}">
+         			{{ message }}
+				</div>
+
+         	{% endfor %}
+        {% endif %}
+	</div>
+
+	<div class="infoupdateform container">
+		<h3>Assign Task</h3>
+		<!-- <form method="POST" class="form-group">
+			{% csrf_token %}
+			{{ form|crispy }}
+			<button type="submit" class="btn btn-success">Submit</button>
+		</form> -->
+			<form method="POST" class="form-group">
+		  		{% csrf_token %}
+		  		{% for field in form %}
+		  				{{ field|as_crispy_field }} 
+		  			
+		  		{% endfor %}
+
+					<button type="submit" class="btn btn-success">Submit</button>
+
+
+	</div>	
+
+{%  endblock %}
