@@ -76,9 +76,19 @@ class TaskCreateView(ManagerRequiredMixin, CreateView):
 
 class TaskUpdateView(LoginRequiredMixin, ManagerRequiredMixin, UpdateView):
     model = Task
-    fields = ['department', 'title', 'description', 'total_points', 'assigned_to', 'deadline']
+    #fields = ['department', 'title', 'description', 'total_points', 'assigned_to', 'deadline']
+    form_class = TaskForm
     template_name = 'createMode/update_task.html'
     
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(TaskUpdateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
     def form_valid(self, form):
 
         form.instance.submitted_by = self.request.user
