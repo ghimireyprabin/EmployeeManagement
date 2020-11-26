@@ -11,5 +11,6 @@ urlpatterns = [
     path('update-task/<int:pk>', TaskUpdateView.as_view(), name='update-task'),
     path('assign-task/<int:pk>', TaskAssignView.as_view(), name='assign-task'),
     path('task-review/<int:pk>', ReviewTask.as_view(), name='task-review'),
-    path('submit-task/<int:pk>', submitTaskCreateView.as_view(),name='submit-task')
+    path('submit-task/<int:pk>', submitTaskCreateView.as_view(),name='submit-task'),
+    path('role', RoleCreateView.as_view(), name='create-role'),
 ]

@@ -42,6 +42,12 @@ class DepartmentUpdateView(AdminRequiredMixin, UpdateView):
     template_name = 'createMode/create-department.html'
     success_url = reverse_lazy('assignment:department-list')
 
+class RoleCreateView(LoginRequiredMixin, AdminRequiredMixin, CreateView):
+    model = Role
+    fields = ['name', 'description']
+    template_name = 'createMode/create_roles.html'
+    success_url = reverse_lazy('assignment:admin-index')
+
 class JobInfoCreateView(AdminRequiredMixin, CreateView):
     model = EmployeeJobInfo
     fields = ['user', 'job_title', 'rank', 'working_hours', 'department', 'roles', 'Pay_Grade', 'isManager']
