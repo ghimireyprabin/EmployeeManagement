@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+	<h3>Roles</h3>
+
+	<br>
+	<a class='add-dept' href="{% url 'createMode:create-role' %}">
+		Add new Role
+	</a>
+
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th></th>
+		</tr>
+			{% for role in roles %}
+				<tr>
+			    	<td> 
+			    		{{ role.name }}
+			    	</td>
+			    	<td> {{ role.description }}</td>
+			    	<td>
+			    	</td>
+			    </tr>
+			{% endfor %}
+		
+	</table>
+
+{% endblock %}

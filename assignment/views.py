@@ -71,6 +71,12 @@ class userProfile(AdminRequiredMixin, ListView):
 			context['is_logged_profile'] = False
 		return context
 
+class RolesListView(AdminRequiredMixin, ListView):
+	model = Role
+	context_object_name = 'roles'
+	template_name = "assignment/roles_list.html"
+
+
 class DepartmentList(AdminRequiredMixin, ListView):
 	template_name = "assignment/departmentlist.html"
 	model = Department
