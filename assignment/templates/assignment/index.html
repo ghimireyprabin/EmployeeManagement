@@ -3,8 +3,16 @@
 {% block content %}
 
 	<div style="text-align: center; margin-top: 55px">
-		<a style="" href="{% url 'assignment:department-list' %}"><h1> Department List </h1></a>
+		<a style="" href="{% url 'assignment:department-list' %}"><h2> Department List </h2></a>
+		<a style="" href="{% url 'createMode:create-departent' %}"><h4> Add new department </h4></a>
+		<a style="" href="{% url 'assignment:unassigned-list' %}"><h4> View unassigned users </h4></a>
 	</div>
+
+	<div style="text-align: center; margin-top: 55px">
+		<a style="" href="{% url 'assignment:rolelist' %}"><h2> Roles List </h2></a>
+		<a style="" href="{% url 'createMode:create-role' %}"><h4> Add new role </h4></a>
+	</div>
+
 	<div style="text-align: center; margin-top: 55px">
 		<a style="" href="{% url 'createMode:jobinfo-create' %}"><h1> Create job Info </h1></a>
 	</div>
