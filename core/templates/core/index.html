@@ -15,21 +15,8 @@
 
          		{% endfor %}
         	{% endif %}
-		</div>	
-
-		<div class="box-element mt-4">
-			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
-				Profile
-			</a>
-			{% if isManager %}
-				<a class="btn btn-outline-light" href="{% url 'core:manager-dashboard' %}"> 
-					Manager Dashboard
-				</a>
-			{% endif %}
-
 		</div>		
 
-		<br>
 
 		<h1>Assigned Tasks</h1>
 		{% if assigned_tasks %}

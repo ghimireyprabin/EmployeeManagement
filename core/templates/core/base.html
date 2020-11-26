@@ -20,6 +20,30 @@
 </head>
 <body>
 
+		{% if user_is_authenticated %}
+		<div class="box-element mt-4">
+			<a class="btn btn-outline-light" href="{% url 'core:index' %}"> 
+				Home
+			</a>
+			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
+				Profile
+			</a>
+			{% if user_is_manager %}
+				<a class="btn btn-outline-light" href="{% url 'core:manager-dashboard' %}"> 
+					Manager Dashboard
+				</a>
+			{% endif %}
+			{% if user_is_admin %}
+				<a class="btn btn-outline-light" href="{% url 'assignment:admin-index' %}"> 
+					Admin Dashboard
+				</a>
+			{% endif %}
+
+		</div>		
+		{% endif %}
+
+		<br>
+
 	{% block content %}
 
 	{% endblock %}

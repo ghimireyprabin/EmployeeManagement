@@ -17,23 +17,7 @@
         	{% endif %}
 		</div>	
 
-		<div class="box-element mt-4">
-			<a class="btn btn-outline-light" href="{% url 'core:index' %}"> 
-				Home
-			</a>
-
-			<a class="btn btn-outline-light" href="{% url 'core:profile' %}"> 
-				Profile
-			</a>
-			<a class="btn btn-outline-light" href="{% url 'createMode:create-task' %}"> 
-				Create New Task
-			</a>
-			
-
-		</div>		
-
-		<br>
-
+		
 		<h1>Unassigned Tasks</h1>
 			{% if created_tasks %}
 			<table>
