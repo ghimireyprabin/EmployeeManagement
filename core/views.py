@@ -220,6 +220,42 @@ class ManagerDashboard(ListView, LoginRequiredMixin, ManagerRequiredMixin):
 
 		return context	
 
+class DepartmentInformation(ListView, LoginRequiredMixin, ManagerRequiredMixin):
+	model = Department
+	template_name = 'core/department_info.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+
+		job_info = EmployeeJobInfo.objects.get(user = self.request.user)
+		if job_info.isManager == True:    
+			department = job_info.department
+			user_info = EmployeeJobInfo.objects.filter(department = department)
+			employee_info = []
+			for user in user_info:
+				info = EmployeePersonalInfo.objects.get(user =user.user)
+				emp_info = {
+					'username' : info.user.username,
+					'fullname' : info.fullname,
+					'age' : info.age,
+					'address' : info.address,
+					'pk' : info.pk,
+					'department' : department,
+					'job_title' : user.job_title,
+					'rank' : user.rank,
+					'working_hours' : user.working_hours,
+					'roles' : user.roles,
+					'isManager' : user.isManager,
+					'user_pk' : user.pk
+				}
+				employee_info.append(emp_info)
+			context['employee_info'] = employee_info
+			context['department'] = department
+
+			return context
+		else:
+			messages.info(request, f'You need to be manager to visit this page')
+			return redirect('core:index')
 
 #view for admin Access and roles that will be used later 
 

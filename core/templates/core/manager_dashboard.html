@@ -17,6 +17,12 @@
         	{% endif %}
 		</div>	
 
+		<br>
+		<br>
+		<a class='add-dept' href="{% url 'core:department-information' %}">
+			Department Information
+		</a>
+	<br>
 		
 		<h1>Unassigned Tasks</h1>
 			{% if created_tasks %}

@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+	<h1>{{ department.name }}</h1>
+
+	<h4 style="text-align: center;"><small> {{department.description }} </small></h4>
+
+	<table>
+		<tr>
+			<th>username</th>
+			<th>Full Name</th>
+			<th>Department</th>
+			<th>Job title</th>
+			<th>Rank</th>
+			<th>Role</th>
+			<th>Hours</th>
+			<th>isManager</th>
+			<th></th>
+		</tr>
+			{% for object in employee_info %}
+				<tr>
+			    	<td> <a href="{% url 'assignment:userprofile' object.pk %}">
+			    		{{ object.username}}
+			    	</a></td>
+			    	<td> {{ object.fullname }}</td>
+			    	<td>{{ object.department }}</td>
+			    	<td>{{ object.job_title }}</td>
+			    	<td> {{ object.rank }} </td>
+			    	<td> {{ object.roles }} </td>
+			    	<td> {{ object.working_hours }} </td>
+			    	<td> {{ object.isManager }}</td>
+			    	<td>
+			    	</td>
+			    </tr>
+			{% endfor %}
+		
+	</table>
+
+{% endblock %}
