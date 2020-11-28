@@ -69,3 +69,21 @@ def update_taskreview_id(sender, instance, created, **kwargs):
 		task.review_id = instance.pk
 		task.save()
 	
+class TaskRejectFeedback(models.Model):
+	task = models.ForeignKey(Task, on_delete=models.CASCADE)
+	rejected_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rejected_by_user')
+	remarks = models.TextField()
+	rejected_on = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return f'{self.rejected_by.username}-{self.task.title}'
+
+	def save(self, *args, **kwargs):
+		try:
+			task = Task.objects.get(pk=self.task.pk)
+			if task.is_rejected == False:
+				task.is_rejected = True
+			task.save()
+		except e:
+			print(e)
+		super(TaskRejectFeedback, self).save(*args, **kwargs)

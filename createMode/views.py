@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from .forms import TaskForm, TaskReviewForm, TaskAssignForm
 from core.models import *
-from .models import Task, TaskReview
+from .models import Task, TaskReview, TaskRejectFeedback
 from django. contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -274,3 +274,40 @@ class TaskAcceptView(LoginRequiredMixin, UpdateView):
             else:
                 messages.add_message(self.request, messages.WARNING, 'You are not assigned to this task.')
                 return redirect('core:index')
+
+class TaskRejectView(LoginRequiredMixin, CreateView):
+    model = TaskRejectFeedback
+    template_name = 'createMode/reject_task.html'
+    fields=['remarks']
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        task_info = Task.objects.get(pk=self.kwargs['pk'])
+        
+        context['task_info'] = task_info
+        
+        return context
+
+    def form_valid(self, form):
+
+        form.instance.rejected_by = self.request.user
+        task_id = self.kwargs.get('pk')
+        task = Task.objects.get(pk = task_id)
+        form.instance.task = task
+        
+        # if TaskReview.objects.get(task = task):
+        if task.is_rejected == True:
+            messages.add_message(self.request, messages.WARNING, 'Task already rejected')
+            return redirect('core:index')
+        elif task.is_accepted == True:
+            messages.add_message(self.request, messages.WARNING, 'Task already accepted.')
+            return redirect('core:index')
+        else:
+            if self.request.user.is_authenticated and self.request.user == task.assigned_to:
+                messages.add_message(self.request, messages.WARNING, 'Task rejected.')
+                return super(TaskRejectView, self).form_valid(form)
+            else:
+                messages.add_message(self.request, messages.WARNING, 'You are not assigned to this task.')
+                return redirect('core:index')
+

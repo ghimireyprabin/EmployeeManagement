@@ -14,5 +14,6 @@ urlpatterns = [
     path('submit-task/<int:pk>', submitTaskCreateView.as_view(),name='submit-task'),
     path('role', RoleCreateView.as_view(), name='create-role'),
     path('accept-task/<int:pk>', TaskAcceptView.as_view(),name='accept-task'),
+    path('reject-task/<int:pk>', TaskRejectView.as_view(),name='reject-task'),
 
 ]
