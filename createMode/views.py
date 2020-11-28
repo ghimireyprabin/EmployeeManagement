@@ -109,8 +109,14 @@ class TaskUpdateView(LoginRequiredMixin, ManagerRequiredMixin, UpdateView):
             #     'error': 'Task already submitted',
             #     'form': form
             # })
+
+        elif task.is_accepted == True:
+            messages.add_message(self.request, messages.WARNING, 'You cannot update this task. Task already accepted.')
+            return redirect('core:manager-dashboard')
+
         else:
             if self.request.user.is_authenticated and self.request.user == task.created_by:
+                form.instance.is_rejected = False
                 messages.add_message(self.request, messages.SUCCESS, 'Task successfully updated')
                 return super(TaskUpdateView, self).form_valid(form)
             else:
