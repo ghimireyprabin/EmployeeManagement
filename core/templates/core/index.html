@@ -144,6 +144,8 @@
 				<tr>
 					<th>Task</th>
 					<th>Description</th>
+					<th>Deadline</th>
+					<th>Total Points</th>
 				</tr>
 					{% for task in rejected_tasks %}
 						<tr>
@@ -151,7 +153,12 @@
 					    		{{ task.title}}
 					    	</a></td>
 					    	<td> {{ task.description }}</td>
-					    	
+					    	<td>
+								{{ task.deadline }}
+					    	</td>
+					    	<td> 
+					    		{{ task.total_points }}
+					    	</td>
 					    </tr>
 					{% endfor %}
 			</table>

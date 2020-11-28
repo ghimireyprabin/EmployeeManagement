@@ -80,7 +80,7 @@ def index(request):
 	tasks = Task.objects.filter(assigned_to = request.user)
 	
 	context = {
-		'assigned_tasks' : tasks.filter(is_accepted = False),
+		'assigned_tasks' : tasks.filter(is_accepted = False).filter(is_rejected = False),
 		'accepted_tasks' : tasks.filter(is_accepted = True).filter(submitted = False),
 		'rejected_tasks' : tasks.filter(is_rejected = True),
 		'submitted_tasks' : tasks.filter(submitted = True),
