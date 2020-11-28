@@ -24,6 +24,8 @@ class Task(models.Model):
 	submitted = models.BooleanField(default=False)
 	reviewed = models.BooleanField(default=False)
 	review_id = models.PositiveIntegerField(blank=True, null=True)
+	is_accepted = models.BooleanField(default=False)
+	is_rejected = models.BooleanField(default=False)
 
 	def __str__(self):
 		return f'{self.department.name}-{self.title}'

@@ -240,3 +240,37 @@ class submitTaskCreateView(CreateView):
                 'error': 'You are not assigned to this task.',
                 'form': form
             })
+
+class TaskAcceptView(LoginRequiredMixin, UpdateView):
+    model = Task
+    template_name = 'createMode/accept_task.html'
+    fields=['is_accepted']
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        task_info = Task.objects.get(pk=self.kwargs['pk'])
+        
+        context['task_info'] = task_info
+        
+        return context
+
+    def form_valid(self, form):
+
+        task_id = self.kwargs.get('pk')
+        task = Task.objects.get(pk = task_id)
+        # check if task is already accepted
+        if task.is_accepted == True:
+            messages.add_message(self.request, messages.WARNING, 'Task already accepted.')
+            return redirect('core:index')
+        elif task.is_rejected == True:
+            messages.add_message(self.request, messages.WARNING, 'Task already rejected.')
+            return redirect('core:index')
+        else:
+            if self.request.user.is_authenticated and self.request.user == task.assigned_to:
+                form.instance.is_accepted = True
+                messages.add_message(self.request, messages.SUCCESS, 'Task accepted.')
+                return super(TaskAcceptView, self).form_valid(form)
+            else:
+                messages.add_message(self.request, messages.WARNING, 'You are not assigned to this task.')
+                return redirect('core:index')
