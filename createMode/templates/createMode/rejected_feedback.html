@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="container" >
+		<br>
+		<h1>Rejected Task</h1>
+		<br><br>
+		<div class="row">
+			<div class="col-md">
+				
+				<h5><strong>Title:</strong> <small>{{ rejected_task_feedback.task.title }}</small></h5>
+				<h5> <strong>Description:</strong>  <small>{{ rejected_task_feedback.task.description }}</small></h5>
+				<h5><strong>Deadline: </strong> <small>{{ rejected_task_feedback.task.deadline }}</small></h5>
+				<h5><strong>Department: </strong><small>{{ rejected_task_feedback.task.department }}</small></h5>
+				<h5><strong>Total Points: </strong> <small>{{ rejected_task_feedback.task.total_points }}</small></h5>
+			
+			</div>
+			<div class="col-md">
+				<h5><strong>Rejected by:</strong> <small>{{ rejected_task_feedback.rejected_by }}</small></h5>
+				<h5><strong>Remarks:</strong> <small>{{ rejected_task_feedback.remarks }}</small></h5>
+				<h5><strong>Rejected on:</strong> <small>{{ rejected_task_feedback.rejected_on }}</small></h5>
+				<br><br>
+				<a href="{% url 'createMode:update-task' rejected_task_feedback.task.pk %}" class="btn btn-success">Update Task</a>
+				<br>
+				<a href="{% url 'createMode:assign-task' rejected_task_feedback.task.pk %}" class="btn btn-success">Re-Assign Task</a>
+			
+			</div>
+
+		</div>
+		
+	</div>
+
+{% endblock %}

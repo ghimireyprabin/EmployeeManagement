@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DetailView
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from .forms import TaskForm, TaskReviewForm, TaskAssignForm
@@ -157,6 +157,7 @@ class TaskAssignView(LoginRequiredMixin, ManagerRequiredMixin, UpdateView):
             # })
         else:
             if self.request.user.is_authenticated and self.request.user == task.created_by:
+                form.instance.is_rejected = False
                 messages.add_message(self.request, messages.SUCCESS, 'successfully assigned to task.')
                 return super(TaskAssignView, self).form_valid(form)
             else:
@@ -316,4 +317,9 @@ class TaskRejectView(LoginRequiredMixin, CreateView):
             else:
                 messages.add_message(self.request, messages.WARNING, 'You are not assigned to this task.')
                 return redirect('core:index')
+
+class TaskRejectDetailsView(LoginRequiredMixin, ManagerRequiredMixin, DetailView):
+    model = TaskRejectFeedback
+    context_object_name = 'rejected_task_feedback'
+    template_name = 'createMode/rejected_feedback.html'
 

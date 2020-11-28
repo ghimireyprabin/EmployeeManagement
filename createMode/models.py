@@ -26,6 +26,7 @@ class Task(models.Model):
 	review_id = models.PositiveIntegerField(blank=True, null=True)
 	is_accepted = models.BooleanField(default=False)
 	is_rejected = models.BooleanField(default=False)
+	reject_feedback_id = models.PositiveIntegerField(blank=True, null=True)
 
 	def __str__(self):
 		return f'{self.department.name}-{self.title}'
@@ -87,3 +88,10 @@ class TaskRejectFeedback(models.Model):
 		except e:
 			print(e)
 		super(TaskRejectFeedback, self).save(*args, **kwargs)
+
+# updating review_id in Task model after feedback is submitted
+@receiver(post_save, sender=TaskRejectFeedback)
+def update_taskreview_id(sender, instance, created, **kwargs):
+	task = Task.objects.get(pk=instance.task.pk)
+	task.reject_feedback_id= instance.pk
+	task.save()

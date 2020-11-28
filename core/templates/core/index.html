@@ -26,6 +26,7 @@
 					<th>Description</th>
 					<th>Deadline</th>
 					<th>Total Points</th>
+					<th>ack.</th>
 					<th></th>
 				</tr>
 					{% for task in assigned_tasks %}
@@ -41,7 +42,11 @@
 					    		{{ task.total_points }}
 					    	</td>
 					    	<td>
-					    		<a href="{% url 'createMode:submit-task' task.pk %}">Submit</a>
+					    		Pending
+					    	</td>
+					    	<td>
+					    		<a href="{% url 'createMode:accept-task' task.pk %}">Accept Task</a> <br>
+					    		<a href="{% url 'createMode:reject-task' task.pk %}">Reject Task</a>
 					    	</td>
 					    </tr>
 					{% endfor %}
@@ -52,6 +57,40 @@
 
 		<br><br><br>
 
+		<h1>Accepted Tasks</h1>
+		{% if accepted_tasks %}
+			<table>
+				<tr>
+					<th>Task</th>
+					<th>Description</th>
+					<th>Deadline</th>
+					<th>Total Points</th>
+					<th></th>
+				</tr>
+					{% for task in accepted_tasks %}
+						<tr>
+					    	<td> 
+					    		{{ task.title}}
+					    	</a></td>
+					    	<td> {{ task.description }}</td>
+					    	<td>
+								{{ task.deadline }}
+					    	</td>
+					    	<td> 
+					    		{{ task.total_points }}
+					    	</td>
+					    	<td>
+					    		<a href="{% url 'createMode:submit-task' task.pk %}">Submit Task</a>
+					    	</td>
+					    </tr>
+					{% endfor %}
+			</table>	
+		{% else %}
+			<h4 class='msg'> <small>You do not have any accepted task  at the moment! </small></h4>
+		{% endif %}
+
+		<br><br><br>
+	
 		<h1>Submitted Tasks</h1>
 		{% if submitted_tasks %}
 			<table>
@@ -89,6 +128,30 @@
 					    			</a>
 					    		{% endif %}
 					    	</td>
+					    </tr>
+					{% endfor %}
+			</table>
+
+		{% else %}
+			<h4 class='msg'> <small>You do not have any submitted task  at the moment! </small></h4>
+		{% endif %}
+
+		<br><br><br>
+
+		<h1>Rejection Pending Tasks</h1>
+		{% if rejected_tasks %}
+			<table>
+				<tr>
+					<th>Task</th>
+					<th>Description</th>
+				</tr>
+					{% for task in rejected_tasks %}
+						<tr>
+					    	<td> 
+					    		{{ task.title}}
+					    	</a></td>
+					    	<td> {{ task.description }}</td>
+					    	
 					    </tr>
 					{% endfor %}
 			</table>

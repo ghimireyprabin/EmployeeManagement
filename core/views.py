@@ -80,9 +80,10 @@ def index(request):
 	tasks = Task.objects.filter(assigned_to = request.user)
 	
 	context = {
-		'assigned_tasks' : tasks.filter(submitted = False),
+		'assigned_tasks' : tasks.filter(is_accepted = False),
+		'accepted_tasks' : tasks.filter(is_accepted = True).filter(submitted = False),
+		'rejected_tasks' : tasks.filter(is_rejected = True),
 		'submitted_tasks' : tasks.filter(submitted = True),
-		'isManager' : isManager,
 	}
 
 	return render(request, 'core/index.html', context)
@@ -215,7 +216,9 @@ class ManagerDashboard(ListView, LoginRequiredMixin, ManagerRequiredMixin):
 		tasks = Task.objects.filter(created_by = self.request.user)
 		
 		context['created_tasks'] = tasks.filter(assigned_to = None)
-		context['assigned_tasks'] = tasks.exclude(assigned_to = None).filter(submitted = False)
+		context['assigned_tasks'] = tasks.filter(submitted = False).filter(is_accepted = False).filter(is_rejected = False).exclude(assigned_to = None)
+		context['accepted_tasks'] = tasks.filter(is_accepted = True).filter(submitted = False)
+		context['rejected_tasks'] = tasks.filter(is_rejected = True)
 		context['submitted_tasks'] = tasks.filter(submitted = True)		
 
 		return context	

@@ -33,6 +33,7 @@
 					<th>Deadline</th>
 					<th>Total Points</th>
 					<th></th>
+					<th></th>
 				</tr>
 					{% for task in created_tasks %}
 						{% if task.assigned_to == None %}
@@ -49,6 +50,9 @@
 					    	</td>
 					    	<td>
 					    		<a href="{% url 'createMode:assign-task' task.pk %}">Assign Task</a>
+					    	</td>
+					    	<td>
+					    		<a href="{% url 'createMode:update-task' task.pk %}">Update Task</a>
 					    	</td>
 					    </tr>
 					    {% endif %}
@@ -69,7 +73,7 @@
 					<th>Deadline</th>
 					<th>Total Points</th>
 					<th>Assigned to</th>
-					
+					<th></th>
 				</tr>
 					{% for task in assigned_tasks %}
 						<tr>
@@ -88,11 +92,49 @@
 					    		&nbsp;
 					    		<a href="{% url 'createMode:assign-task' task.pk %}"><i class="fas fa-cog"></i></a>
 					    	</td>
+					    	<td>
+					    		<a href="{% url 'createMode:update-task' task.pk %}">Update Task</a>
+					    	</td>
 					    </tr>
 					{% endfor %}
 			</table>
 			{% else %}
 				<h4 class="msg"> <small>No assiggned tasks at the moment.</small></h4>
+			{% endif %}
+
+		<br><br><br>
+
+		<h1>Accepted Tasks</h1>
+			{% if accepted_tasks %}
+			<table>
+				<tr>
+					<th>Task</th>
+					<th>Description</th>
+					<th>Deadline</th>
+					<th>Total Points</th>
+					<th>Assigned to</th>
+				</tr>
+					{% for task in accepted_tasks %}
+						<tr>
+					    	<td> 
+					    		{{ task.title}}
+					    	</a></td>
+					    	<td> {{ task.description }}</td>
+					    	<td>
+								{{ task.deadline }}
+					    	</td>
+					    	<td> 
+					    		{{ task.total_points }}
+					    	</td>
+					    	<td>
+					    		{{ task.assigned_to }}
+					    		
+					    	</td>
+					    </tr>
+					{% endfor %}
+			</table>
+			{% else %}
+				<h4 class="msg"> <small>No accepted tasks at the moment.</small></h4>
 			{% endif %}
 
 		<br><br><br>
@@ -150,6 +192,45 @@
 			{% else %}
 				<h4 class="msg"> <small>No assiggned tasks at the moment.</small></h4>
 			{% endif %}
+
+		<br><br><br>
+
+		<h1>Rejected Tasks</h1>
+		{% if rejected_tasks %}
+			<table>
+				<tr>
+					<th>Task</th>
+					<th>Description</th>
+					<th>Deadline</th>
+					<th>Total Points</th>
+					<th>Assigned to</th>
+					<th></th>
+				</tr>
+					{% for task in rejected_tasks %}
+						<tr>
+					    	<td> 
+					    		{{ task.title}}
+					    	</a></td>
+					    	<td> {{ task.description }}</td>
+					    	<td>
+								{{ task.deadline }}
+					    	</td>
+					    	<td> 
+					    		{{ task.total_points }}
+					    	</td>
+					    	<td>
+					    		{{ task.assigned_to }}
+					    	</td>
+					    	<th>
+					    		<a href="{% url 'createMode:rejected-feedback' task.reject_feedback_id %}">Details</a>
+					    	</th>
+					    </tr>
+					{% endfor %}
+			</table>
+
+		{% else %}
+			<h4 class='msg'> <small>You do not have any submitted task  at the moment! </small></h4>
+		{% endif %}
 
 		<br><br><br>
 
