@@ -1,6 +1,17 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
+{% block head %}
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+  <script src="{% static 'core/javascript/table.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'core/table_style.css' %}">
+
+{% endblock %}
+
 {% block content %}
 
 	<div class="">
@@ -25,19 +36,27 @@
 		<a class='add-dept mr-auto' href="{% url 'createMode:create-task' %}">
 			New Task
 		</a>
-	<br>
+	<br> <br>
 		
-		<h1>Unassigned Tasks</h1>
+		<h3>Unassigned Tasks</h3>
 			{% if created_tasks %}
-			<table>
-				<tr>
-					<th>Task</th>
-					<th>Description</th>
-					<th>Deadline</th>
-					<th>Total Points</th>
-					<th></th>
-					<th></th>
-				</tr>
+
+		<div class="container">    
+		    <div class="row">
+
+        		<table id="unassigned_tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		          <thead>
+					<tr>
+						<th>Task</th>
+						<th>Description</th>
+						<th>Deadline</th>
+						<th>Total Points</th>
+						<th></th>
+						<th></th>
+					</tr>
+		          </thead>
+		          <tbody>
+		            
 					{% for task in created_tasks %}
 						{% if task.assigned_to == None %}
 						<tr>
@@ -60,24 +79,38 @@
 					    </tr>
 					    {% endif %}
 					{% endfor %}
-			</table>
+		          </tbody>
+        		</table>
+			</div>
+		</div>
+
+
 			{% else %}
 				<h4 class="msg"> <small>You do not have any task left to assign at the moment.</small></h4>
 			{% endif %}
 
 		<br><br><br>
 
-		<h1>Assigned Tasks</h1>
+		<h3>Assigned Tasks</h3>
 			{% if assigned_tasks %}
-			<table>
-				<tr>
-					<th>Task</th>
-					<th>Description</th>
-					<th>Deadline</th>
-					<th>Total Points</th>
-					<th>Assigned to</th>
-					<th></th>
-				</tr>
+
+
+		<div class="container">    
+		    <div class="row">
+
+        		<table id="assigned_tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		          <thead>
+					<tr>
+						<th>Task</th>
+						<th>Description</th>
+						<th>Deadline</th>
+						<th>Total Points</th>
+						<th>Assigned to</th>
+						<th></th>
+					</tr>
+		          </thead>
+		          <tbody>
+		            
 					{% for task in assigned_tasks %}
 						<tr>
 					    	<td> 
@@ -100,23 +133,35 @@
 					    	</td>
 					    </tr>
 					{% endfor %}
-			</table>
+		          </tbody>
+        		</table>
+			</div>
+		</div>
+
 			{% else %}
 				<h4 class="msg"> <small>No assiggned tasks at the moment.</small></h4>
 			{% endif %}
 
 		<br><br><br>
 
-		<h1>Accepted Tasks</h1>
+		<h3>Accepted Tasks</h3>
 			{% if accepted_tasks %}
-			<table>
-				<tr>
-					<th>Task</th>
-					<th>Description</th>
-					<th>Deadline</th>
-					<th>Total Points</th>
-					<th>Assigned to</th>
-				</tr>
+
+		<div class="container">    
+		    <div class="row">
+
+        		<table id="accepted_tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		          <thead>
+					<tr>
+						<th>Task</th>
+						<th>Description</th>
+						<th>Deadline</th>
+						<th>Total Points</th>
+						<th>Assigned to</th>
+					</tr>
+		          </thead>
+		          <tbody>
+		            
 					{% for task in accepted_tasks %}
 						<tr>
 					    	<td> 
@@ -135,16 +180,27 @@
 					    	</td>
 					    </tr>
 					{% endfor %}
-			</table>
+		            
+		          </tbody>
+        		</table>
+			</div>
+		</div>
+
+
 			{% else %}
 				<h4 class="msg"> <small>No accepted tasks at the moment.</small></h4>
 			{% endif %}
 
 		<br><br><br>
 
-		<h1>Submitted Tasks</h1>
+		<h3>Submitted Tasks</h3>
 			{% if submitted_tasks %}
-			<table>
+
+		<div class="container">    
+		    <div class="row">
+
+        		<table id="submitted_tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		          <thead>
 				<tr>
 					<th>Task</th>
 					<th>Description</th>
@@ -155,6 +211,9 @@
 					<th></th>
 					
 				</tr>
+		          </thead>
+		          <tbody>
+		            
 					{% for task in submitted_tasks %}
 						<tr>
 					    	<td> 
@@ -187,28 +246,45 @@
 					    		{% else %}
 					    			<a href="{% url 'createMode:task-review' task.review_id %}">
 					    				Review Task
-					    			</a>					    	</td>
+					    			</a>					   
+					    	</td>
 					    </tr>
 					    {% endif %}
 					{% endfor %}
-			</table>
+
+		          
+		            
+		          </tbody>
+        		</table>
+			</div>
+		</div>
+
+
 			{% else %}
 				<h4 class="msg"> <small>No assiggned tasks at the moment.</small></h4>
 			{% endif %}
 
 		<br><br><br>
 
-		<h1>Rejected Tasks</h1>
+		<h3>Rejected Tasks</h3>
 		{% if rejected_tasks %}
-			<table>
-				<tr>
-					<th>Task</th>
-					<th>Description</th>
-					<th>Deadline</th>
-					<th>Total Points</th>
-					<th>Assigned to</th>
-					<th></th>
-				</tr>
+
+		<div class="container">    
+		    <div class="row">
+
+        		<table id="rejecteed_tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		          <thead>
+					<tr>
+						<th>Task</th>
+						<th>Description</th>
+						<th>Deadline</th>
+						<th>Total Points</th>
+						<th>Assigned to</th>
+						<th></th>
+					</tr>
+		          </thead>
+		          <tbody>
+		            
 					{% for task in rejected_tasks %}
 						<tr>
 					    	<td> 
@@ -224,12 +300,20 @@
 					    	<td>
 					    		{{ task.assigned_to }}
 					    	</td>
-					    	<th>
+					    	<td>
 					    		<a href="{% url 'createMode:rejected-feedback' task.reject_feedback_id %}">Details</a>
-					    	</th>
+					    	</td>
 					    </tr>
 					{% endfor %}
-			</table>
+
+		          
+		            
+		          </tbody>
+        		</table>
+			</div>
+		</div>
+
+
 
 		{% else %}
 			<h4 class='msg'> <small>You do not have any submitted task  at the moment! </small></h4>
@@ -238,4 +322,17 @@
 		<br><br><br>
 
 	</div>
+
+
+	<script type="text/javascript">
+    
+	  $(document).ready(function() {
+	    $('#unassigned_tasks').DataTable();
+	    $('#assigned_tasks').DataTable();
+	    $('#accepted_tasks').DataTable();
+	    $('#submitted_tasks').DataTable();
+	    $('#rejecteed_tasks').DataTable();
+	  } );
+
+ </script>
 {% endblock %}
