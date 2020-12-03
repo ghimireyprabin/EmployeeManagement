@@ -1,0 +1,36 @@
+div.dataTables_wrapper div.dataTables_length label{
+	font-weight: normal;
+	text-align: left;
+	white-space: nowrap;
+}
+
+label {
+	display: inline-block !important;
+	max-width: 100%;
+	margin-bottom: 5px;
+}
+
+.dataTables_wrapper .row {
+	width: 90%;
+	padding-left: 25px;
+}
+
+.container {
+	width: 100%;
+}
+
+tbody {
+	background-color: white;
+}
+
+thead {
+	background-color: #f8f9fa;
+}
+
+td  a {
+	color: #555;
+}
+
+th, td {
+	padding: 0 1px;
+}
