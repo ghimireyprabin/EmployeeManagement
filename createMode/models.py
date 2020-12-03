@@ -65,10 +65,9 @@ class TaskReview(models.Model):
 # updating review_id in Task model after task is submitted
 @receiver(post_save, sender=TaskReview)
 def update_taskreview_id(sender, instance, created, **kwargs):
-	if created:
-		task = Task.objects.get(pk=instance.task.pk)
-		task.review_id = instance.pk
-		task.save()
+	task = Task.objects.get(pk=instance.task.pk)
+	task.review_id = instance.pk
+	task.save()
 	
 class TaskRejectFeedback(models.Model):
 	task = models.ForeignKey(Task, on_delete=models.CASCADE)
@@ -91,7 +90,7 @@ class TaskRejectFeedback(models.Model):
 
 # updating review_id in Task model after feedback is submitted
 @receiver(post_save, sender=TaskRejectFeedback)
-def update_taskreview_id(sender, instance, created, **kwargs):
+def update_taskreject_id(sender, instance, created, **kwargs):
 	task = Task.objects.get(pk=instance.task.pk)
 	task.reject_feedback_id= instance.pk
 	task.save()
