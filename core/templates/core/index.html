@@ -26,7 +26,50 @@
 
          		{% endfor %}
         	{% endif %}
-		</div>		
+		</div>	
+
+<h3>Overview</h3>			
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h2 class="text-center"><span>{{ total_assigned_tasks }}</span></h2>
+                    <p class="m-b-0 text-center">Assigned Tasks</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h2 class="text-center"><span>{{ total_accepted_tasks }}</span></h2>
+                    <p class="m-b-0 text-center">Accepted Tasks</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h2 class="text-center"><span>{{ total_submitted_tasks }}</span></h2>
+                    <p class="m-b-0 text-center">Submitted Tasks</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h2 class="text-center"><span>{{ total_rejected_tasks }}</span></h2>
+                    <p class="m-b-0 text-center">Rejected Tasks</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
 
 
 		<h3>Assigned Tasks</h3>
