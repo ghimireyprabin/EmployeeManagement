@@ -8,6 +8,7 @@ urlpatterns = [
     path('jobinfo-update/<int:pk>', JobInfoUpdateView.as_view(), name='jobinfo-update'),
     path('jobinfo-create', JobInfoCreateView.as_view(), name='jobinfo-create'),
     path('create-task', TaskCreateView.as_view(), name='create-task'),
+    path('user-create-task/<int:pk>', UserTaskCreate.as_view(), name='user-create-task'),    
     path('update-task/<int:pk>', TaskUpdateView.as_view(), name='update-task'),
     path('assign-task/<int:pk>', TaskAssignView.as_view(), name='assign-task'),
     path('task-review/<int:pk>', ReviewTask.as_view(), name='task-review'),

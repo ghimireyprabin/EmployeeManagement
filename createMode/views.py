@@ -61,7 +61,7 @@ class JobInfoUpdateView(AdminRequiredMixin, UpdateView):
     success_url = reverse_lazy('assignment:department-list')
 
 # task create view
-class TaskCreateView(ManagerRequiredMixin, CreateView):
+class TaskCreateView(LoginRequiredMixin, ManagerRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
    # fields = ['title', 'description', 'total_points', 'deadline', 'department', 'assigned_to']
@@ -79,6 +79,41 @@ class TaskCreateView(ManagerRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super(TaskCreateView, self).form_valid(form)
+
+# task create view (assigned to user)
+class UserTaskCreate(LoginRequiredMixin,ManagerRequiredMixin, CreateView):
+    model = Task
+    form_class = TaskForm
+   # fields = ['title', 'description', 'total_points', 'deadline', 'department', 'assigned_to']
+    template_name = 'createMode/user_task_create.html'
+    # success_url= redirect('core:manager-dashboard')
+
+    def get_success_url(self):
+        return reverse_lazy('core:manager-dashboard')
+
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(UserTaskCreate, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.assigned_to = User.objects.get(pk = self.kwargs.get('pk'))
+        # department = EmployeeJobInfo.objects.get(user=self.request.user).department
+        # form.instance.department = Department.objects.filter(pk = department.pk) 
+        return super(UserTaskCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(pk = self.kwargs['pk'])
+        personal_info = EmployeePersonalInfo.objects.get(user = user)
+        
+        context['username'] = user.username
+        
+        return context
 
 class TaskUpdateView(LoginRequiredMixin, ManagerRequiredMixin, UpdateView):
     model = Task

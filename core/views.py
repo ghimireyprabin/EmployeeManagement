@@ -247,7 +247,9 @@ class DepartmentInformation(ListView, LoginRequiredMixin, ManagerRequiredMixin):
 			employee_info = []
 			for user in user_info:
 				info = EmployeePersonalInfo.objects.get(user =user.user)
+				
 				emp_info = {
+					'user_pk' : user.user.pk,
 					'username' : info.user.username,
 					'fullname' : info.fullname,
 					'age' : info.age,
@@ -259,7 +261,6 @@ class DepartmentInformation(ListView, LoginRequiredMixin, ManagerRequiredMixin):
 					'working_hours' : user.working_hours,
 					'roles' : user.roles,
 					'isManager' : user.isManager,
-					'user_pk' : user.pk
 				}
 				employee_info.append(emp_info)
 			context['employee_info'] = employee_info

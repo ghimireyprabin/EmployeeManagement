@@ -16,7 +16,7 @@
 			<th>Role</th>
 			<th>Hours</th>
 			<th>isManager</th>
-			<th></th>
+			<th>Assign Task</th>
 		</tr>
 			{% for object in employee_info %}
 				<tr>
@@ -31,6 +31,7 @@
 			    	<td> {{ object.working_hours }} </td>
 			    	<td> {{ object.isManager }}</td>
 			    	<td>
+			    		<a class="check" href="{% url 'createMode:user-create-task' object.user_pk %}"><i class="fas fa-plus" title="Assign Task"></i></a>
 			    	</td>
 			    </tr>
 			{% endfor %}
