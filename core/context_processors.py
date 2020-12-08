@@ -7,8 +7,12 @@ def check_authorization(request):
 		user_is_admin = False
 	if request.user.is_authenticated:
 		user_is_authenticated = True
-		personalinfo = EmployeePersonalInfo.objects.filter(user = request.user)[0]
-		jobinfo = EmployeeJobInfo.objects.filter(user = request.user)[0]
+		personalinfo = EmployeePersonalInfo.objects.filter(user = request.user)
+		if personalinfo:
+			personalinfo = personalinfo[0]
+		jobinfo = EmployeeJobInfo.objects.filter(user = request.user)
+		if jobinfo:
+			jobinfo = jobinfo[0]
 		if jobinfo and jobinfo.isManager == True:
 			user_is_manager = True
 		else:
