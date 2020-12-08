@@ -216,7 +216,7 @@ class TaskReviewDeailView(DetailView, LoginRequiredMixin):
 	template_name = 'core/review_details.html'
 	context_object_name = 'review'
 
-class ManagerDashboard(ListView, LoginRequiredMixin, ManagerRequiredMixin):
+class ManagerDashboard(LoginRequiredMixin, ManagerRequiredMixin, ListView):
 	model = Task
 	template_name = 'core/manager_dashboard.html'
 	context_object_name = 'tasks'
@@ -233,7 +233,7 @@ class ManagerDashboard(ListView, LoginRequiredMixin, ManagerRequiredMixin):
 
 		return context	
 
-class DepartmentInformation(ListView, LoginRequiredMixin, ManagerRequiredMixin):
+class DepartmentInformation(LoginRequiredMixin, ManagerRequiredMixin, ListView):
 	model = Department
 	template_name = 'core/department_info.html'
 
@@ -268,8 +268,36 @@ class DepartmentInformation(ListView, LoginRequiredMixin, ManagerRequiredMixin):
 
 			return context
 		else:
-			messages.info(request, f'You need to be manager to visit this page')
-			return redirect('core:index')
+			context['error_message'] = 'You are not authorized to visit this page.'
+			return context
+
+class TaskList(LoginRequiredMixin, ListView):
+	model = Task
+	template_name = 'core/task_list.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+
+		job_info = EmployeeJobInfo.objects.get(user = self.request.user)
+		task_user = User.objects.get(pk = self.kwargs['pk'])
+
+		if job_info.isManager == True or self.request.user == task_user:
+			tasks = Task.objects.filter(assigned_to = task_user).order_by('created_at')
+
+			context['tasks'] = tasks
+			context['total_assigned_tasks'] = tasks.filter(is_accepted = False).filter(is_rejected = False).count()
+			context['total_accepted_tasks'] = tasks.filter(is_accepted = True).filter(submitted = False).count()
+			context['total_submitted_tasks'] = tasks.filter(submitted = True).count()
+			context['total_rejected_tasks'] = tasks.filter(is_rejected = True).count()
+			context['username'] = task_user.username
+			user_personal_info = EmployeePersonalInfo.objects.filter(user = task_user)
+			if user_personal_info:
+				context['fullname'] = user_personal_info[0].fullname
+			
+			return context
+		else:
+			context['error_message'] = 'You are not authorized to visit this page.'
+			return context
 
 #view for admin Access and roles that will be used later 
 

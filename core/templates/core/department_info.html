@@ -20,7 +20,7 @@
 		</tr>
 			{% for object in employee_info %}
 				<tr>
-			    	<td> <a href="{% url 'assignment:userprofile' object.pk %}">
+			    	<td> <a href="{% url 'core:task-list' object.user_pk %}">
 			    		{{ object.username}}
 			    	</a></td>
 			    	<td> {{ object.fullname }}</td>

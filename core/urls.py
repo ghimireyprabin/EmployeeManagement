@@ -14,6 +14,7 @@ urlpatterns = [
     path('task-review-details/<int:pk>', TaskReviewDeailView.as_view(), name='task-review-details'),
     path('manager-dashboard', ManagerDashboard.as_view(), name='manager-dashboard'),
     path('department-information', DepartmentInformation.as_view(), name='department-information'),
+    path('task-list/<int:pk>', TaskList.as_view(), name='task-list'),
 
     path('register', register_views.register, name='register'),
     # path('login/', LoginView.as_view(), name='login'),
