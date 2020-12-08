@@ -1,6 +1,17 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
+{% block head %}
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+  <script src="{% static 'core/javascript/table.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'core/table_style.css' %}">
+
+{% endblock %}
+
 {% block content %}
 
 	<div class="">
@@ -15,12 +26,101 @@
 
          		{% endfor %}
         	{% endif %}
-		</div>		
+		</div>	
+
+<h3>Overview</h3>			
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h2 class="text-center"><span>{{ total_assigned_tasks }}</span></h2>
+                    <p class="m-b-0 text-center">Assigned Tasks</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h2 class="text-center"><span>{{ total_accepted_tasks }}</span></h2>
+                    <p class="m-b-0 text-center">Accepted Tasks</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h2 class="text-center"><span>{{ total_submitted_tasks }}</span></h2>
+                    <p class="m-b-0 text-center">Submitted Tasks</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h2 class="text-center"><span>{{ total_rejected_tasks }}</span></h2>
+                    <p class="m-b-0 text-center">Rejected Tasks</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
-		<h1>Assigned Tasks</h1>
+
+
+		<h3>Assigned Tasks</h3>
 		{% if assigned_tasks %}
-			<table>
+
+		<div class="container">    
+		    <div class="row">
+
+        		<table id="assigned_tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		          <thead>
+		            <tr>
+		                <th>Task</th>
+						<th>Description</th>
+						<th>Deadline</th>
+						<th>Total Points</th>
+						<th>ack.</th>
+						<th></th>
+		            </tr>
+		          </thead>
+		          <tbody>
+		            
+					{% for task in assigned_tasks %}
+						<tr>
+					    	<td> 
+					    		{{ task.title}}
+					    	</a></td>
+					    	<td> {{ task.description }}</td>
+					    	<td>
+								{{ task.deadline }}
+					    	</td>
+					    	<td> 
+					    		{{ task.total_points }}
+					    	</td>
+					    	<td>
+					    		Pending
+					    	</td>
+					    	<td>
+					    		<a class="check" href="{% url 'createMode:accept-task' task.pk %}"><i class="fas fa-check" title="Accept Task"></i></a> &nbsp;
+					    		<a class="times" href="{% url 'createMode:reject-task' task.pk %}"><i class="fas fa-times" title="Reject Task"></i></a>
+					    	</td>
+					    </tr>
+					{% endfor %}
+
+		          
+		            
+		          </tbody>
+        		</table>
+			</div>
+		</div>
+
+			<!-- <table>
 				<tr>
 					<th>Task</th>
 					<th>Description</th>
@@ -50,23 +150,31 @@
 					    	</td>
 					    </tr>
 					{% endfor %}
-			</table>	
+			</table> -->	
 		{% else %}
 			<h4 class='msg'> <small>You do not have any task assigned at the moment! </small></h4>
 		{% endif %}
 
 		<br><br><br>
 
-		<h1>Accepted Tasks</h1>
+		<h3>Accepted Tasks</h3>
 		{% if accepted_tasks %}
-			<table>
-				<tr>
+
+		<div class="container">    
+		    <div class="row">
+
+        		<table id="accepted_tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		          <thead>
+		            <tr>
 					<th>Task</th>
 					<th>Description</th>
 					<th>Deadline</th>
 					<th>Total Points</th>
 					<th></th>
-				</tr>
+		            </tr>
+		          </thead>
+		          <tbody>
+		            
 					{% for task in accepted_tasks %}
 						<tr>
 					    	<td> 
@@ -84,24 +192,39 @@
 					    	</td>
 					    </tr>
 					{% endfor %}
-			</table>	
+
+		          
+		            
+		          </tbody>
+        		</table>
+			</div>
+		</div>
+
 		{% else %}
 			<h4 class='msg'> <small>You do not have any accepted task  at the moment! </small></h4>
 		{% endif %}
 
 		<br><br><br>
 	
-		<h1>Submitted Tasks</h1>
+		<h3>Submitted Tasks</h3>
 		{% if submitted_tasks %}
-			<table>
-				<tr>
+
+		<div class="container">    
+		    <div class="row">
+
+        		<table id="submitted_tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		          <thead>
+		            <tr>
 					<th>Task</th>
 					<th>Description</th>
 					<th>Deadline</th>
 					<th>Total Points</th>
 					<th>Review</th>
 					<th></th>
-				</tr>
+		            </tr>
+		          </thead>
+		          <tbody>
+		            
 					{% for task in submitted_tasks %}
 						<tr>
 					    	<td> 
@@ -130,7 +253,14 @@
 					    	</td>
 					    </tr>
 					{% endfor %}
-			</table>
+
+		          
+		            
+		          </tbody>
+        		</table>
+			</div>
+		</div>
+
 
 		{% else %}
 			<h4 class='msg'> <small>You do not have any submitted task  at the moment! </small></h4>
@@ -138,15 +268,23 @@
 
 		<br><br><br>
 
-		<h1>Rejection Pending Tasks</h1>
+		<h3>Rejection Pending Tasks</h3>
 		{% if rejected_tasks %}
-			<table>
-				<tr>
+
+		<div class="container">    
+		    <div class="row">
+
+        		<table id="rejecteed_tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
+		          <thead>
+		            <tr>
 					<th>Task</th>
 					<th>Description</th>
 					<th>Deadline</th>
 					<th>Total Points</th>
-				</tr>
+		            </tr>
+		          </thead>
+		          <tbody>
+		            
 					{% for task in rejected_tasks %}
 						<tr>
 					    	<td> 
@@ -161,13 +299,31 @@
 					    	</td>
 					    </tr>
 					{% endfor %}
-			</table>
+
+		          
+		            
+		          </tbody>
+        		</table>
+			</div>
+		</div>
+
 
 		{% else %}
-			<h4 class='msg'> <small>You do not have any submitted task  at the moment! </small></h4>
+			<h4 class='msg'> <small>You do not have any rejected task  at the moment! </small></h4>
 		{% endif %}
 
 		<br><br><br>
 
 	</div>
+
+<script type="text/javascript">
+    
+  $(document).ready(function() {
+    $('#assigned_tasks').DataTable();
+    $('#accepted_tasks').DataTable();
+    $('#submitted_tasks').DataTable();
+    $('#rejecteed_tasks').DataTable();
+  } );
+
+ </script>
 {% endblock %}

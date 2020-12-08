@@ -78,12 +78,22 @@ def index(request):
 		isManager = True
 
 	tasks = Task.objects.filter(assigned_to = request.user)
+
+	assigned_tasks = tasks.filter(is_accepted = False).filter(is_rejected = False)
+	accepted_tasks = tasks.filter(is_accepted = True).filter(submitted = False)
+	rejected_tasks = tasks.filter(is_rejected = True)
+	submitted_tasks = tasks.filter(submitted = True)
 	
 	context = {
-		'assigned_tasks' : tasks.filter(is_accepted = False).filter(is_rejected = False),
-		'accepted_tasks' : tasks.filter(is_accepted = True).filter(submitted = False),
-		'rejected_tasks' : tasks.filter(is_rejected = True),
-		'submitted_tasks' : tasks.filter(submitted = True),
+		'assigned_tasks' : assigned_tasks,
+		'total_assigned_tasks' : assigned_tasks.count(),
+		'accepted_tasks' : accepted_tasks,
+		'total_accepted_tasks' : accepted_tasks.count(),
+		'rejected_tasks' : rejected_tasks,
+		'total_rejected_tasks' : rejected_tasks.count(),
+		'submitted_tasks' : submitted_tasks,
+		'total_submitted_tasks' : submitted_tasks.count(),
+
 	}
 
 	return render(request, 'core/index.html', context)
