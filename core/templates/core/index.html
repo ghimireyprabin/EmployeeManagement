@@ -107,8 +107,8 @@
 					    		Pending
 					    	</td>
 					    	<td>
-					    		<a href="{% url 'createMode:accept-task' task.pk %}">Accept Task</a> <br>
-					    		<a href="{% url 'createMode:reject-task' task.pk %}">Reject Task</a>
+					    		<a class="check" href="{% url 'createMode:accept-task' task.pk %}"><i class="fas fa-check" title="Accept Task"></i></a> &nbsp;
+					    		<a class="times" href="{% url 'createMode:reject-task' task.pk %}"><i class="fas fa-times" title="Reject Task"></i></a>
 					    	</td>
 					    </tr>
 					{% endfor %}

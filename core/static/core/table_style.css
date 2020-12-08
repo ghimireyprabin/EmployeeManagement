@@ -34,3 +34,13 @@ td  a {
 th, td {
 	padding: 0 1px;
 }
+
+.fa-check {
+	color: #45ca45;
+	font-size: 18px;
+}
+
+.fa-times {
+	color: #db3939;
+	font-size: 18px;
+}
