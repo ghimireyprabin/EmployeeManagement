@@ -14,7 +14,7 @@ class TaskForm(forms.ModelForm):
 
 	class Meta:
 		model = Task
-		fields = ('department', 'title', 'description', 'total_points', 'assigned_to', 'deadline')
+		fields = ('department', 'title', 'description', 'resources', 'total_points', 'assigned_to', 'deadline')
 
 	def __init__(self, *args, **kwargs):
 		department = EmployeeJobInfo.objects.filter(user=kwargs.pop('user'))[0].department

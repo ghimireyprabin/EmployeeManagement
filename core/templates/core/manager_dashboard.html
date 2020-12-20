@@ -206,6 +206,7 @@
 					<th>Description</th>
 					<th>Deadline</th>
 					<th>Total Points</th>
+					<th>Awarded points</th>
 					<th>Assigned to</th>
 					<th>Review</th>
 					<th></th>
@@ -214,24 +215,27 @@
 		          </thead>
 		          <tbody>
 		            
-					{% for task in submitted_tasks %}
+					{% for submitted_task in submitted_tasks %}
 						<tr>
 					    	<td> 
-					    		{{ task.title}}
+					    		{{ submitted_task.task.title}}
 					    	</a></td>
-					    	<td> {{ task.description }}</td>
+					    	<td> {{ submitted_task.task.description }}</td>
 					    	<td>
-								{{ task.deadline }}
+								{{ submitted_task.task.deadline }}
 					    	</td>
 					    	<td> 
-					    		{{ task.total_points }}
+					    		{{ submitted_task.task.total_points }}
 					    	</td>
 					    	<td>
-					    		{{ task.assigned_to }}
+					    		{{ submitted_task.awarded_points }}
 					    	</td>
 					    	<td>
-					    		{% if task.reviewed %}
-					    			<a href="{% url 'core:task-review-details' task.review_id %}">
+					    		{{ submitted_task.task.assigned_to }}
+					    	</td>
+					    	<td>
+					    		{% if submitted_task.task.reviewed %}
+					    			<a href="{% url 'core:task-review-details' submitted_task.task.review_id %}">
 						    			Complete
 						    		</a>
 					    		{% else %}
@@ -239,12 +243,12 @@
 					    		{% endif %}
 					    	</td>
 					    	<td>
-					    		{% if task.reviewed %}
-					    			<a href="{% url 'createMode:task-review' task.review_id %}">
+					    		{% if submitted_task.task.reviewed %}
+					    			<a href="{% url 'createMode:task-review' submitted_task.task.review_id %}">
 					    				Update Review
 					    			</a>
 					    		{% else %}
-					    			<a href="{% url 'createMode:task-review' task.review_id %}">
+					    			<a href="{% url 'createMode:task-review' submitted_task.task.review_id %}">
 					    				Review Task
 					    			</a>					   
 					    	</td>

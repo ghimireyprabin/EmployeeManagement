@@ -82,7 +82,7 @@ def index(request):
 	assigned_tasks = tasks.filter(is_accepted = False).filter(is_rejected = False)
 	accepted_tasks = tasks.filter(is_accepted = True).filter(submitted = False)
 	rejected_tasks = tasks.filter(is_rejected = True)
-	submitted_tasks = tasks.filter(submitted = True)
+	submitted_tasks = TaskReview.objects.filter(submitted_by = request.user)
 	
 	context = {
 		'assigned_tasks' : assigned_tasks,
@@ -229,7 +229,7 @@ class ManagerDashboard(LoginRequiredMixin, ManagerRequiredMixin, ListView):
 		context['assigned_tasks'] = tasks.filter(submitted = False).filter(is_accepted = False).filter(is_rejected = False).exclude(assigned_to = None)
 		context['accepted_tasks'] = tasks.filter(is_accepted = True).filter(submitted = False)
 		context['rejected_tasks'] = tasks.filter(is_rejected = True)
-		context['submitted_tasks'] = tasks.filter(submitted = True)		
+		context['submitted_tasks'] = TaskReview.objects.filter(task__created_by = self.request.user)		
 
 		return context	
 

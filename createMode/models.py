@@ -17,6 +17,7 @@ class Task(models.Model):
 	description = models.TextField()
 	total_points = models.PositiveIntegerField(validators=[MinValueValidator(10), MaxValueValidator(100)])
 	department = models.ForeignKey(Department, on_delete=models.CASCADE)
+	resources = models.FileField(upload_to='resources', blank=True, null=True)
 	deadline = models.DateTimeField()
 	assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='assigned_to_user')
 	created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='created_by_user')

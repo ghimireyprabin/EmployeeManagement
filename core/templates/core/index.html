@@ -85,8 +85,8 @@
 						<th>Description</th>
 						<th>Deadline</th>
 						<th>Total Points</th>
+						<th>Recources</th>
 						<th>ack.</th>
-						<th></th>
 		            </tr>
 		          </thead>
 		          <tbody>
@@ -104,7 +104,12 @@
 					    		{{ task.total_points }}
 					    	</td>
 					    	<td>
-					    		Pending
+					    		{% if task.resources %}
+					    		 <p><a href="{{ task.resources.url }}">Download</a></p>
+					    		{% else %}
+					    			N/A
+					    		{% endif %}
+
 					    	</td>
 					    	<td>
 					    		<a class="check" href="{% url 'createMode:accept-task' task.pk %}"><i class="fas fa-check" title="Accept Task"></i></a> &nbsp;
@@ -169,6 +174,7 @@
 					<th>Task</th>
 					<th>Description</th>
 					<th>Deadline</th>
+					<th>Resources</th>
 					<th>Total Points</th>
 					<th></th>
 		            </tr>
@@ -183,6 +189,13 @@
 					    	<td> {{ task.description }}</td>
 					    	<td>
 								{{ task.deadline }}
+					    	</td>
+					    	<td>
+					    		{% if task.resources %}
+					    		 <p><a href="{{ task.resources.url }}">Download</a></p>
+					    		{% else %}
+					    			N/A
+					    		{% endif %}
 					    	</td>
 					    	<td> 
 					    		{{ task.total_points }}
@@ -219,23 +232,27 @@
 					<th>Description</th>
 					<th>Deadline</th>
 					<th>Total Points</th>
+					<th>Awarded points</th>
 					<th>Review</th>
 					<th></th>
 		            </tr>
 		          </thead>
 		          <tbody>
 		            
-					{% for task in submitted_tasks %}
+					{% for submitted_task in submitted_tasks %}
 						<tr>
 					    	<td> 
-					    		{{ task.title}}
+					    		{{ submitted_task.task.title}}
 					    	</a></td>
-					    	<td> {{ task.description }}</td>
+					    	<td> {{ submitted_task.task.description }}</td>
 					    	<td>
-								{{ task.deadline }}
+								{{ submitted_task.task.deadline }}
 					    	</td>
 					    	<td> 
-					    		{{ task.total_points }}
+					    		{{ submitted_task.task.total_points }}
+					    	</td>
+					    	<td>
+					    		{{ submitted_task.awarded_points }}
 					    	</td>
 					    	<td>
 					    		{% if task.reviewed is True %}
@@ -245,8 +262,8 @@
 					    		{% endif %}
 					    	</td>
 					    	<td>
-					    		{% if task.reviewed is True %}
-					    			<a href="{% url 'core:task-review-details' task.review_id %}">
+					    		{% if submitted_task.task.reviewed is True %}
+					    			<a href="{% url 'core:task-review-details' submitted_task.task.review_id %}">
 					    				View Review
 					    			</a>
 					    		{% endif %}
@@ -280,6 +297,7 @@
 					<th>Task</th>
 					<th>Description</th>
 					<th>Deadline</th>
+					<th>Resources</th>
 					<th>Total Points</th>
 		            </tr>
 		          </thead>
@@ -293,6 +311,13 @@
 					    	<td> {{ task.description }}</td>
 					    	<td>
 								{{ task.deadline }}
+					    	</td>
+					    	<td>
+					    		{% if task.resources %}
+					    		 <p><a href="{{ task.resources.url }}">Download</a></p>
+					    		{% else %}
+					    			N/A
+					    		{% endif %}
 					    	</td>
 					    	<td> 
 					    		{{ task.total_points }}
