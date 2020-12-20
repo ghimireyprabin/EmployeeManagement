@@ -42,6 +42,8 @@ class TaskReview(models.Model):
 	reviewed_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='reviewed_by_user')
 	reviewed_on = models.DateTimeField(auto_now=True)
 	remarks = models.TextField(blank=True, null=True)
+	resources = models.FileField(upload_to='resources', blank=True, null=True)
+	submission_feedback = models.TextField(blank=True, null=True)
 	awarded_points = models.PositiveIntegerField(validators=[MinValueValidator(10), MaxValueValidator(100)],blank=True, null=True)
 	submission = models.CharField(max_length=25, choices=submission_choices, blank=True, null=True)
 

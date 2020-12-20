@@ -23,11 +23,26 @@
 				<h3>Task Details:</h3>
 				<h5><strong>Title:</strong> <small>{{ review.task.title }}</small></h5>
 				<h5> <strong>Description:</strong>  <small>{{ review.task.description }}</small></h5>
+				<h5><strong>Provided Resources: </strong> <small>
+					{% if review.task.resources %}
+		    			<a href="{{ review.task.resources.url }}">{{ review.task.resources.name }}</a>
+		    		{% else %}
+		    			N/A
+		    		{% endif %}
+				</small></h5>
 				<h5><strong>Submitted by:</strong> <small>{{ review.submitted_by.username }}</small></h5>
 				<h5><strong>Department: </strong><small>{{ review.task.department }}</small></h5>
 				<h5><strong>Deadline: </strong> <small>{{ review.task.deadline }}</small></h5>
 				<h5><strong>Submitted on:</strong> <small>{{ review.submitted_on }}</small></h5>
 				<h5><strong>Total Points: </strong> <small>{{ review.task.total_points }}</small></h5>
+				<h5><strong>Submission Feedback: </strong> <small>{{ review.submission_feedback }}</small></h5>
+				<h5><strong>Provided Resources: </strong> <small>
+					{% if review.resources %}
+		    			<a href="{{ review.resources.url }}">{{ review.resources.name }}</a>
+		    		{% else %}
+		    			N/A
+		    		{% endif %}
+				</small></h5>
 			</div>
 			<div class="col">
 				<h3>Review:</h3>

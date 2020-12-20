@@ -20,6 +20,13 @@
 				<h5><strong>Deadline: </strong> <small>{{ rejected_task_feedback.task.deadline }}</small></h5>
 				<h5><strong>Department: </strong><small>{{ rejected_task_feedback.task.department }}</small></h5>
 				<h5><strong>Total Points: </strong> <small>{{ rejected_task_feedback.task.total_points }}</small></h5>
+				<h5><strong>Provided Resources: </strong> <small>
+					{% if rejected_task_feedback.task.resources %}
+		    			<a href="{{ rejected_task_feedback.task.resources.url }}">{{ rejected_task_feedback.task.resources.name }}</a>
+		    		{% else %}
+		    			N/A
+		    		{% endif %}
+				</small></h5>
 			
 			</div>
 			<div class="col-md">

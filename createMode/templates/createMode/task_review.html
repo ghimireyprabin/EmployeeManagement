@@ -17,19 +17,35 @@
 				<h3>Task Details:</h3>
 				<h5><strong>Title:</strong> <small>{{ task.title }}</small></h5>
 				<h5> <strong>Description:</strong>  <small>{{ task.description }}</small></h5>
+				<h5><strong>Provided Resources: </strong> <small>
+					{% if task.resources %}
+		    			<a href="{{ task.resources.url }}">{{ task.resources.name }}</a>
+		    		{% else %}
+		    			N/A
+		    		{% endif %}
+				</small></h5>
 				<h5><strong>Submitted by:</strong> <small>{{ task_review.submitted_by.username }}</small></h5>
 				<h5><strong>Department: </strong><small>{{ task.department }}</small></h5>
 				<h5><strong>Deadline: </strong> <small>{{ task.deadline }}</small></h5>
 				<h5><strong>Submitted on:</strong> <small>{{ task_review.submitted_on }}</small></h5>
 				<h5><strong>Total Points: </strong> <small>{{ task.total_points }}</small></h5>
+				<h5><strong>Submission Feedback: </strong> <small>{{ task_review.submission_feedback }}</small></h5>
+				<h5><strong>Provided Resources: </strong> <small>
+					{% if task_review.resources %}
+		    			<a href="{{ task_review.resources.url }}">{{ task_review.resources.name }}</a>
+		    		{% else %}
+		    			N/A
+		    		{% endif %}
+				</small></h5>
 			
 			</div>
 			<div class="col-md">
 				<form method='POST'>
 				{% csrf_token %}
 				{{ form|crispy }}
-				<button type="submit">Submit</button>
+				<button type="submit" class="btn btn-success">Submit</button>
 			</form>
+			<br><br>
 			</div>
 
 		</div>

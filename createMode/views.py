@@ -245,7 +245,7 @@ class ReviewTask(ManagerRequiredMixin, UpdateView):
 class submitTaskCreateView(CreateView):
     model = TaskReview
     template_name = 'createMode/submit_task.html'
-    fields=['remarks']
+    fields=['resources', 'submission_feedback']
     success_url = '/'
 
     def get_context_data(self, **kwargs):

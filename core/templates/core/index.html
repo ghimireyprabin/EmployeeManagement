@@ -255,7 +255,7 @@
 					    		{{ submitted_task.awarded_points }}
 					    	</td>
 					    	<td>
-					    		{% if task.reviewed is True %}
+					    		{% if submitted_task.task.reviewed is True %}
 					    			Complete
 					    		{% else %}
 					    			Pending
