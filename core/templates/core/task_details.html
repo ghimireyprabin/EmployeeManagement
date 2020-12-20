@@ -1,0 +1,90 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+	<div class="container">
+
+		<div style="margin-left: 20%; margin-right: 20%; text-align: center">
+			{% if messages %}
+       			{% for message in messages %}
+
+     				<div class="alert alert-{{ message.tags }}">
+         				{{ message }}
+					</div>
+
+         		{% endfor %}
+        	{% endif %}
+		</div>	
+
+		<h1>Task Review Details</h1>
+
+		<div class="row">
+			<div class="col">
+				<h3>Task Details:</h3>
+				<h5><strong>Title:</strong> <small>{{ task.title }}</small></h5>
+				<h5> <strong>Description:</strong>  <small>{{ task.description }}</small></h5>
+				<h5><strong>Provided Resources: </strong> <small>
+					{% if task.resources %}
+		    			<a href="{{ task.resources.url }}">{{ task.resources.name }}</a>
+		    		{% else %}
+		    			N/A
+		    		{% endif %}
+				</small></h5>
+				<h5><strong>Assigned to:</strong> <small>{{ task.assigned_to }}</small></h5>
+				<h5><strong>Department: </strong><small>{{ task.department }}</small></h5>
+				<h5><strong>Deadline: </strong> <small>{{ task.deadline }}</small></h5>
+		
+				<h5><strong>Total Points: </strong> <small>{{ task.total_points }}</small></h5>
+			</div>
+			<div class="col">
+				<h3></h3>
+				{% if request.user == task.assigned_to %}
+					{% if task.submitted and task.reviewed %}
+						<a href="{% url 'core:task-review-details' task.review_id %}" type="button" class="btn btn-success">View Review</a><br>
+					{% elif task.submitted and task.reviewed == False %}
+						<a type="button" class="btn btn-warning">Review Pending</a><br>
+					{% else %}
+						{% if task.is_accepted %}
+							<a type="button" class="btn btn-success" href="{% url 'createMode:submit-task' task.pk %}">Submit Task</a><br>
+						{% elif task.is_rejected %}
+							<a  type="button" class="btn btn-warning">Task Rejeced</a> <br><br>
+						{% else %}
+							<a href="{% url 'createMode:accept-task' task.pk %}" type="button" class="btn btn-success">Accept Task</a> <br>
+							<a href="{% url 'createMode:reject-task' task.pk %}" type="button" class="btn btn-warning">Reject Task</a><br>
+						{% endif %}
+						
+					{% endif %}
+				{% endif %}
+
+				{% if user_is_manager %}
+					{% if task.created_by == request.user %}
+						{% if task.assigned_to == None %}
+							<a href="{% url 'createMode:assign-task' task.pk %}" type="button" class="btn btn-success"> Assign Task</a> <br>
+							<a href="{% url 'createMode:update-task' task.pk %}" type="button" class="btn btn-success"> Update Task</a> <br>
+						{% elif task.submitted and task.reviewed %}
+							<a href="{% url 'core:task-review-details' task.review_id %}" type="button" class="btn btn-success">View Review</a> <br>
+							<a href="{% url 'createMode:task-review' task.review_id %}" type="button" class="btn btn-warning">Update Review</a><br>
+						{% elif task.submitted and task.reviewed == False %}
+							<a href="{% url 'createMode:task-review' task.review_id %}" type="button" class="btn btn-warning">Review Task</a><br>
+						{% elif task.is_rejected %}
+							<a type="button" class="btn btn-warning" href="{% url 'createMode:rejected-feedback' task.reject_feedback_id %}">Rejection Details</a><br>
+						{% elif task.is_accepted %}
+							<a  type="button" class="btn btn-warning">Submission Pending</a><br>
+						{% elif task.is_accepted %}
+							<a  type="button" class="btn btn-warning">Submission Pending</a><br>
+						{% elif task.is_accepted == False and task.is_rejected == False %}
+							<a  type="button" class="btn btn-warning">Acknowledgement Pending</a><br>
+						{% endif %}
+
+					{% endif %}
+				{% endif %}
+				
+
+				
+			</div>
+			
+		</div>
+	</div>
+
+
+{% endblock %}

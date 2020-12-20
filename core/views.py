@@ -210,6 +210,12 @@ class ProfilePicIUpdateView(UpdateView, LoginRequiredMixin,UserPassesTestMixin):
 		return super(ProfilePicIUpdateView, self).dispatch(
 	    request, *args, **kwargs)
 
+# Details of a task
+class TaskDeailView(DetailView, LoginRequiredMixin):
+	model = Task
+	template_name = 'core/task_details.html'
+	context_object_name = 'task'
+
 # Details of a task review
 class TaskReviewDeailView(DetailView, LoginRequiredMixin):
 	model = TaskReview

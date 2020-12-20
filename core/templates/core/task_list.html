@@ -98,7 +98,7 @@
 					{% for task in tasks %}
 						<tr>
 					    	<td> 
-					    		{{ task.title}}
+					    		<a href="{% url 'core:task-details' task.pk %}">{{ task.title}} </a>
 					    	</a></td>
 					    	<td> {{ task.description }}</td>
 					    	<td>

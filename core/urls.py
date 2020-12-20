@@ -15,6 +15,7 @@ urlpatterns = [
     path('manager-dashboard', ManagerDashboard.as_view(), name='manager-dashboard'),
     path('department-information', DepartmentInformation.as_view(), name='department-information'),
     path('task-list/<int:pk>', TaskList.as_view(), name='task-list'),
+    path('task-details/<int:pk>', TaskDeailView.as_view(), name='task-details'),
 
     path('register', register_views.register, name='register'),
     # path('login/', LoginView.as_view(), name='login'),

@@ -61,7 +61,7 @@
 						{% if task.assigned_to == None %}
 						<tr>
 					    	<td> 
-					    		{{ task.title}}
+					    		<a href="{% url 'core:task-details' task.pk %}">{{ task.title}} </a>
 					    	</a></td>
 					    	<td> {{ task.description }}</td>
 					    	<td>
@@ -114,7 +114,7 @@
 					{% for task in assigned_tasks %}
 						<tr>
 					    	<td> 
-					    		{{ task.title}}
+					    		<a href="{% url 'core:task-details' task.pk %}">{{ task.title}} </a>
 					    	</a></td>
 					    	<td> {{ task.description }}</td>
 					    	<td>
@@ -165,8 +165,8 @@
 					{% for task in accepted_tasks %}
 						<tr>
 					    	<td> 
-					    		{{ task.title}}
-					    	</a></td>
+					    		<a href="{% url 'core:task-details' task.pk %}">{{ task.title}} </a>
+					    	</td>
 					    	<td> {{ task.description }}</td>
 					    	<td>
 								{{ task.deadline }}
@@ -218,8 +218,8 @@
 					{% for submitted_task in submitted_tasks %}
 						<tr>
 					    	<td> 
-					    		{{ submitted_task.task.title}}
-					    	</a></td>
+					    		<a href="{% url 'core:task-details' submitted_task.task.pk %}">{{ submitted_task.task.title}} </a>
+					    	</td>
 					    	<td> {{ submitted_task.task.description }}</td>
 					    	<td>
 								{{ submitted_task.task.deadline }}
@@ -292,7 +292,7 @@
 					{% for task in rejected_tasks %}
 						<tr>
 					    	<td> 
-					    		{{ task.title}}
+					    		<a href="{% url 'core:task-details' task.pk %}">{{ task.title}} </a>
 					    	</a></td>
 					    	<td> {{ task.description }}</td>
 					    	<td>
