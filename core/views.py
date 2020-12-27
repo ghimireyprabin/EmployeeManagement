@@ -10,6 +10,7 @@ from createMode.models import *
 from .forms import * 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 
 
 
@@ -296,6 +297,37 @@ class TaskList(LoginRequiredMixin, ListView):
 			context['total_submitted_tasks'] = tasks.filter(submitted = True).count()
 			context['total_rejected_tasks'] = tasks.filter(is_rejected = True).count()
 			context['username'] = task_user.username
+			user_personal_info = EmployeePersonalInfo.objects.filter(user = task_user)
+			if user_personal_info:
+				context['fullname'] = user_personal_info[0].fullname
+			
+			return context
+		else:
+			context['error_message'] = 'You are not authorized to visit this page.'
+			return context
+
+
+class EmpPerformance(LoginRequiredMixin, ListView):
+	model = Task
+	template_name = 'core/emp_performance.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+
+		job_info = EmployeeJobInfo.objects.get(user = self.request.user)
+		task_user = User.objects.get(pk = self.kwargs['pk'])
+
+		if job_info.isManager == True or self.request.user == task_user:
+			tasks = Task.objects.filter(assigned_to = task_user).order_by('created_at')
+
+			context['tasks'] = tasks
+			context['total_assigned_tasks'] = tasks.filter(is_accepted = False).filter(is_rejected = False).count()
+			context['total_accepted_tasks'] = tasks.filter(is_accepted = True).filter(submitted = False).count()
+			context['total_submitted_tasks'] = tasks.filter(submitted = True).count()
+			context['total_rejected_tasks'] = tasks.filter(is_rejected = True).count()
+			context['username'] = task_user.username
+			context['total_assigned_points'] = tasks.filter(is_accepted = True).filter(submitted = False).aggregate(Sum('total_points'))['total_points__sum']
+			context['total_awarded_points'] = TaskReview.objects.filter(submitted_by = task_user).aggregate(Sum('awarded_points'))['awarded_points__sum']
 			user_personal_info = EmployeePersonalInfo.objects.filter(user = task_user)
 			if user_personal_info:
 				context['fullname'] = user_personal_info[0].fullname

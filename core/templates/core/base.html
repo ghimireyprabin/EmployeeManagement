@@ -69,10 +69,7 @@
                   <a href="#"><i class="fas fa-table fa-lg"></i> Tasks </a>
                 </li>
                 <ul class="sub-menu collapse" id="products">
-                    <li><a href="#">Assigned Tasks</a></li>
-                    <li><a href="#">Accepted Tasks</a></li>
-                    <li><a href="#">Completed Tasks</a></li>
-                    <li><a href="#">Rejected Tasks</a></li>
+                    <li><a href="{% url 'core:task-list' request.user.pk %}">Overview</a></li>
                 </ul>
 
 
@@ -106,8 +103,8 @@
                   </li>
 
                  <li>
-                  <a href="#">
-                  <i class="fa fa-users fa-lg"></i> Users
+                  <a href="{% url 'core:emp-performance' request.user.pk %}">
+                  <i class="fa fa-users fa-lg"></i> Performance
                   </a>
                 </li>
             </ul>
